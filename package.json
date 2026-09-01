@@ -1,0 +1,25 @@
+{
+  "name": "bks-orissa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bharatiya Krishak Samaj — Odisha (sister chapter site of BKS West Bengal)",
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.5.9",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.17.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5.7.0"
+  }
+}

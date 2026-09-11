@@ -167,6 +167,17 @@ export type Dict = {
     watch: string;
     meetingHandoverCaption: string;
     meetingReviewCaption: string;
+    napSeminarTitle: string;
+    napSeminarMeta: string;
+    napSeminarIntro: string;
+    napSeminarLeadersTitle: string;
+    napSeminarLeaders: string[];
+    napSeminarCaptionGroup: string;
+    napSeminarCaptionBooklet: string;
+    napSeminarCaptionStage: string;
+    bandeFelicitationTitle: string;
+    bandeFelicitationBody: string;
+    bandeFelicitationCaption: string;
   };
   footer: { quote: string; org: string };
   common: {
@@ -368,6 +379,33 @@ const en: Dict = {
       "Formal document presentation with Smt. Nibedita Nayak Baliarsingh and BKS Odisha colleagues.",
     meetingReviewCaption:
       "Leadership meeting — reviewing an official document with BKS Odisha representatives.",
+    napSeminarTitle: 'Report on seminar — "National Agricultural Policy"',
+    napSeminarMeta:
+      "Organised by Bharatiya Krishak Samaj, Odisha · Supported by Sthapna Charitable Trust · 10 September 2026",
+    napSeminarIntro:
+      "Bharatiya Krishak Samaj, Odisha organised a seminar on the National Agricultural Policy, bringing together state leadership, district presidents and farmer representatives for discussion on policy priorities for Odisha agriculture.",
+    napSeminarLeadersTitle: "Leaders and speakers featured in the programme",
+    napSeminarLeaders: [
+      "Shri Krishan Bir Chaudhary — Member, Prime Minister's High Level Committee on MSP",
+      "Smt. Nibedita Baliarsingh Nayak — State President (Women), Bharatiya Krishak Samaj, Odisha",
+      "Sri Saroj Kumar Bhuyan — Secretary, Odisha SEVAC; Coordinator, Bharatiya Krishak Samaj, Odisha",
+      "Sri Tapan Kumar Dehury — Director, Odisha SEVAC; Vice President, Bharatiya Krishak Samaj, Odisha",
+      "Smt. Sandhya Rani Kissan — District President, Bharatiya Krishak Samaj (Women Wing), Deogarh",
+      "Sri Malaya Kumar Deep — District President, Bharatiya Krishak Samaj, Kalahandi",
+      "Sri Kunja Bihari Samant — District President, Bharatiya Krishak Samaj, Sundargarh",
+      "Sri Mahendra Thakur — District President, Bharatiya Krishak Samaj, Deogarh",
+    ],
+    napSeminarCaptionGroup:
+      "National Agricultural Policy seminar — Bharatiya Krishak Samaj, Odisha, 10 September 2026.",
+    napSeminarCaptionBooklet:
+      "Programme booklet release on stage at the National Agricultural Policy seminar.",
+    napSeminarCaptionStage:
+      "Leaders on stage at the National Agricultural Policy seminar, Bharatiya Krishak Samaj, Odisha.",
+    bandeFelicitationTitle: "Felicitation at BANDE ODISHA",
+    bandeFelicitationBody:
+      "Felicitation Program of Nibedita Baliarsingh Nayak, State President, Bharatiya Krishak Samaj — Women Odisha, at the prestigious programme BANDE ODISHA — the signature programme supported by the Odisha Government.",
+    bandeFelicitationCaption:
+      "Felicitation of Smt. Nibedita Baliarsingh Nayak at BANDE ODISHA.",
   },
   footer: {
     quote: "The farmer is the keeper of soil, seed, culture and national resilience.",
@@ -500,6 +538,12 @@ const hi: Dict = {
       "श्रीमती निबेदिता नायक बलियारसिंह और BKS ओडिशा सहयोगियों के साथ औपचारिक दस्तावेज़ प्रस्तुति।",
     meetingReviewCaption:
       "नेतृत्व बैठक — BKS ओडिशा प्रतिनिधियों के साथ आधिकारिक दस्तावेज़ की समीक्षा।",
+    napSeminarTitle: 'सेमिनार रिपोर्ट — "राष्ट्रीय कृषि नीति"',
+    napSeminarMeta:
+      "आयोजक: भारतीय कृषक समाज, ओडिशा · सहयोग: स्थापना चैरिटेबल ट्रस्ट · 10 सितंबर 2026",
+    bandeFelicitationTitle: "बंदे ओडिशा में सम्मान समारोह",
+    bandeFelicitationBody:
+      "निबेदिता बलियारसिंह नायक, राज्य अध्यक्ष, भारतीय कृषक समाज — महिला ओडिशा का सम्मान समारोह, प्रतिष्ठित कार्यक्रम बंदे ओडिशा में — ओडिशा सरकार द्वारा समर्थित सिग्नेचर कार्यक्रम।",
   },
   footer: {
     quote: "किसान मिट्टी, बीज, संस्कृति और राष्ट्रीय लचीलेपन का रक्षक है।",
@@ -649,6 +693,12 @@ const orLocale: Dict = {
       "ଶ୍ରୀମତୀ ନିବେଦିତା ନାୟକ ବଳିଆରସିଂହ ଏବଂ BKS ଓଡ଼ିଶା ସହକର୍ମୀଙ୍କ ସହ ଔପଚାରିକ ଦଲିଲ ଉପସ୍ଥାପନା।",
     meetingReviewCaption:
       "ନେତୃତ୍ୱ ବୈଠକ — BKS ଓଡ଼ିଶା ପ୍ରତିନିଧିଙ୍କ ସହ ସରକାରୀ ଦଲିଲ ସମୀକ୍ଷା।",
+    napSeminarTitle: 'ସେମିନାର ରିପୋର୍ଟ — "ଜାତୀୟ କୃଷି ନୀତି"',
+    napSeminarMeta:
+      "ଆୟୋଜକ: ଭାରତୀୟ କୃଷକ ସମାଜ, ଓଡ଼ିଶା · ସହଯୋଗ: ସ୍ଥାପନା ଚ୍ୟାରିଟେବଲ୍ ଟ୍ରଷ୍ଟ · 10 ସେପ୍ଟେମ୍ବର 2026",
+    bandeFelicitationTitle: "ବନ୍ଦେ ଓଡ଼ିଶାରେ ସମ୍ମାନ",
+    bandeFelicitationBody:
+      "ନିବେଦିତା ବଳିଆରସିଂହ ନାୟକ, ରାଜ୍ୟ ସଭାପତି, ଭାରତୀୟ କୃଷକ ସମାଜ — ମହିଳା ଓଡ଼ିଶାଙ୍କ ସମ୍ମାନ ସମାରୋହ, ପ୍ରତିଷ୍ଠିତ କାର୍ଯ୍ୟକ୍ରମ ବନ୍ଦେ ଓଡ଼ିଶାରେ — ଓଡ଼ିଶା ସରକାର ସମର୍ଥିତ ସିଗ୍ନେଚର କାର୍ଯ୍ୟକ୍ରମ।",
   },
   footer: {
     quote: "କୃଷକ ମାଟି, ବୀଜ, ସଂସ୍କୃତି ଓ ଜାତୀୟ ସ୍ଥିତିସ୍ଥାପକତାର ରକ୍ଷକ।",

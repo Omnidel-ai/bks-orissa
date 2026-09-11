@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { NATIONAL_PRESIDENT_URL, NIBEDITA_PROFILE_PATH, ODISHA_TALKS_URL } from "@/lib/site";
 import { t, type Locale } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
+import { NapSept10EventFeature } from "@/components/NapSept10EventFeature";
 
 export type SectionKind = "about" | "odisha" | "leadership" | "media" | "apply" | "agriculture";
 
@@ -300,68 +301,7 @@ export function SectionPage({ kind }: { kind: SectionKind }) {
               lead={d.media.lead}
               back={d.common.backHome}
             />
-            <section className="home-section">
-              <div className="wrap prose-block page-reading">
-                <h2>{d.media.napSeminarTitle}</h2>
-                <div className="stitch-accent" aria-hidden="true" />
-                <p className="source-note">{d.media.napSeminarMeta}</p>
-                <p>{d.media.napSeminarIntro}</p>
-                <h3 style={{ marginTop: "1.25rem", fontSize: "1.05rem" }}>
-                  {d.media.napSeminarLeadersTitle}
-                </h3>
-                <ul className="profile-list">
-                  {d.media.napSeminarLeaders.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </section>
-            <section className="home-section">
-              <div className="wrap story-grid">
-                <figure className="photo-frame" style={{ margin: 0 }}>
-                  <div className="photo-frame-media" style={{ aspectRatio: "16 / 10" }}>
-                    <Image
-                      src="/assets/media-nap-seminar-group.jpg"
-                      alt={d.media.napSeminarCaptionGroup}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 560px"
-                      style={{ objectFit: "cover", objectPosition: "center 40%" }}
-                    />
-                  </div>
-                  <figcaption className="photo-frame-caption">
-                    {d.media.napSeminarCaptionGroup}
-                  </figcaption>
-                </figure>
-                <figure className="photo-frame" style={{ margin: 0 }}>
-                  <div className="photo-frame-media" style={{ aspectRatio: "16 / 10" }}>
-                    <Image
-                      src="/assets/media-nap-seminar-booklet.jpg"
-                      alt={d.media.napSeminarCaptionBooklet}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 560px"
-                      style={{ objectFit: "cover", objectPosition: "center 45%" }}
-                    />
-                  </div>
-                  <figcaption className="photo-frame-caption">
-                    {d.media.napSeminarCaptionBooklet}
-                  </figcaption>
-                </figure>
-                <figure className="photo-frame" style={{ margin: 0 }}>
-                  <div className="photo-frame-media" style={{ aspectRatio: "16 / 10" }}>
-                    <Image
-                      src="/assets/media-nap-seminar-stage.jpg"
-                      alt={d.media.napSeminarCaptionStage}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 560px"
-                      style={{ objectFit: "cover", objectPosition: "center 42%" }}
-                    />
-                  </div>
-                  <figcaption className="photo-frame-caption">
-                    {d.media.napSeminarCaptionStage}
-                  </figcaption>
-                </figure>
-              </div>
-            </section>
+            <NapSept10EventFeature />
             <section className="home-section">
               <div className="wrap prose-block page-reading">
                 <h2>{d.media.bandeFelicitationTitle}</h2>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NATIONAL_PRESIDENT_URL, NIBEDITA_PROFILE_PATH } from "@/lib/site";
+import { napSeminarReport } from "@/content/media/napSeminarReport";
 import { t } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
 
@@ -188,6 +189,50 @@ export function HomeGateway() {
             <Link href="/leadership" className="btn-secondary" style={{ marginTop: "1.25rem", display: "inline-flex" }}>
               {h.leadershipCta}
             </Link>
+          </div>
+        </section>
+
+        <section className="home-section home-nap-feature" aria-labelledby="home-nap-title">
+          <div className="wrap home-content-block home-agri-split">
+            <div>
+              <span className="eyebrow">Recent event</span>
+              <h2 id="home-nap-title">National Agricultural Policy Seminar 2026</h2>
+              <div className="stitch-accent" aria-hidden="true" />
+              <ul className="home-nap-meta">
+                <li>
+                  <strong>Date</strong> {napSeminarReport.dateLabel}
+                </li>
+                <li>
+                  <strong>Venue</strong> {napSeminarReport.location}
+                </li>
+                <li>
+                  <strong>Time</strong> {napSeminarReport.time}
+                </li>
+              </ul>
+              <p className="home-content-body">
+                Farmers, women agri-entrepreneurs, researchers and agricultural stakeholders from Western Odisha gathered
+                in Sambalpur for dialogue on the National Agricultural Policy, rural livelihoods and inclusive agricultural
+                development.
+              </p>
+              <Link href="/media#nap-sept-10-2026" className="btn-secondary" style={{ marginTop: "1.25rem", display: "inline-flex" }}>
+                View Event Coverage
+              </Link>
+            </div>
+            <figure className="home-nap-photo-frame">
+              <div className="home-nap-photo-glow" aria-hidden="true" />
+              <div className="home-nap-photo-media">
+                <Image
+                  src="/assets/home-nap-seminar-programme-banner.jpg"
+                  alt="Bharatiya Krishak Samaj Odisha programme banner for the National Agricultural Policy Seminar, 10 September 2026, Tapaswini Auditorium, Sambalpur"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 520px"
+                  style={{ objectFit: "contain", objectPosition: "center" }}
+                />
+              </div>
+              <figcaption className="photo-frame-caption">
+                Programme feature — National Agricultural Policy Seminar, Tapaswini Auditorium, Sambalpur
+              </figcaption>
+            </figure>
           </div>
         </section>
 

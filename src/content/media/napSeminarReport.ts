@@ -45,7 +45,7 @@ export const napSeminarReport = {
   sections: [
     {
       id: "introduction",
-      title: "1. Event Overview",
+      title: "1. INTRODUCTION",
       paragraphs: [
         "Bharatiya Krishak Samaj, Odisha, with the support of Sthapna Charitable Trust, organised a seminar on the “National Agricultural Policy” on 10th September 2026 at Tapaswini Auditorium, Sambalpur.",
         "Approximately 350 participants attended the programme. The gathering brought together farmers, women farmers and agri-entrepreneurs, researchers, agricultural innovators, social workers, and representatives of the farming community from different parts of Western Odisha.",
@@ -54,7 +54,7 @@ export const napSeminarReport = {
     },
     {
       id: "participation",
-      title: "2. Participation & Representation",
+      title: "2. PARTICIPATION AND REPRESENTATION",
       paragraphs: [
         "The programme reflected broad representation from the farming community and allied stakeholders. Approximately 350 participants attended the programme.",
       ],
@@ -71,7 +71,7 @@ export const napSeminarReport = {
     },
     {
       id: "felicitation-nibedita",
-      title: "3. Women’s Leadership & Felicitation",
+      title: "3. FELICITATION OF SMT. NIBEDITA BALISINGH NAYAK",
       paragraphs: [
         "Smt. Nibedita Baliarsingh Nayak, State President (Women), Bharatiya Krishak Samaj, Odisha, was felicitated at the seminar in recognition of her leadership.",
         "The recognition acknowledged her work in strengthening women’s participation in agriculture, advancing agricultural entrepreneurship, supporting rural livelihoods, and promoting community-based development.",
@@ -80,15 +80,24 @@ export const napSeminarReport = {
     },
     {
       id: "district-presidents",
-      title: "4. District Leadership Recognition",
+      title: "4. RECOGNITION OF DISTRICT PRESIDENTS",
       paragraphs: [
         "District Presidents of Bharatiya Krishak Samaj from 10 districts of Western Odisha were recognised during the programme. Both male and female representatives were recognised.",
         "This recognition formed part of organisational strengthening. It was intended to encourage district-level leadership and to strengthen the BKS organisational network among farmers and rural communities.",
+        "The following names and designations appear in the supplied programme material. Only source-supported designations are listed; no additional biographies have been added.",
+      ],
+      bullets: [
+        "Krishan Bir Chaudhary — Member, Prime Minister’s High Level Committee on MSP",
+        "Sri Tapan Kumar Dehury — Director, Odisha SEVAC; Vice President, Bharatiya Krishak Samaj, Odisha",
+        "Smt. Sandhya Rani Kissan — District President, Bharatiya Krishak Samaj (Women Wing), Deogarh District; Pioneer — “Control Environment Saffron Cultivation”, Jharsuguda",
+        "Sri Malaya Kumar Deep — District President, Bharatiya Krishak Samaj, Kalahandi District; State & National Awardee — Roof Top Garden Competition",
+        "Sri Kunja Bihari Samant — District President, Bharatiya Krishak Samaj, Sundargarh District",
+        "Sri Mahendra Thakur — District President, Bharatiya Krishak Samaj, Deogarh District",
       ],
     },
     {
       id: "women-agri-entrepreneurs",
-      title: "5. Women Agri-Entrepreneurs",
+      title: "5. FELICITATION OF WOMEN AGRI-ENTREPRENEURS",
       paragraphs: [
         "Ten Women Agri-Entrepreneurs were recognised at the seminar for their contribution to women-led entrepreneurship and agri-based enterprises.",
         "The areas of recognition included Biotez & Agri-Innovation; Bloom – Controlled Environment Saffron Cultivation; Innovative Millet Artisans; millet-based food and value-added products; and other innovative agricultural and rural livelihood initiatives.",
@@ -98,7 +107,7 @@ export const napSeminarReport = {
     },
     {
       id: "distinguished-guests",
-      title: "6. Distinguished Guests",
+      title: "6. DISTINGUISHED GUESTS",
       paragraphs: [
         "The seminar was attended by distinguished guests whose presence added significance to the programme and reinforced collaborative efforts for farmers’ welfare, agricultural development and rural transformation.",
       ],
@@ -114,7 +123,7 @@ export const napSeminarReport = {
     },
     {
       id: "key-focus",
-      title: "7. Key Focus of the Seminar",
+      title: "7. KEY FOCUS OF THE SEMINAR",
       paragraphs: [
         "The seminar focused on the following priorities for agricultural policy and rural development:",
       ],
@@ -135,16 +144,17 @@ export const napSeminarReport = {
     },
     {
       id: "leadership",
-      title: "8. Leadership & Coordination",
+      title: "8. LEADERSHIP AND COORDINATION",
       paragraphs: [
         "Programme leadership was provided by Smt. Nibedita Baliarsingh Nayak, State President (Women), Bharatiya Krishak Samaj, Odisha.",
-        "Programme coordination was undertaken by Sj. Saroj Kumar Bhuyan, Secretary, Sthapna Charitable Trust, and Smt. Ritu Tuli, Sthapna Women Task Force.",
-        "Their coordination and organisational support enabled the successful conduct of the seminar and the associated recognition programmes.",
+        "Programme coordination was undertaken by Sj. Saroj Kumar Bhuyan and Smt. Ritu Tuli. Their coordination and organisational support enabled the successful conduct of the seminar and the associated recognition programmes.",
+        "Source-supported designations for Sj. Saroj Kumar Bhuyan: Secretary, Sthapna Charitable Trust (report); Secretary, Odisha SEVAC, and Coordinator, Bharatiya Krishak Samaj, Odisha (programme material).",
+        "Source-supported designations for Smt. Ritu Tuli: Sthapna Women Task Force (report); Vice President, Bharatiya Krishak Samaj, Sambalpur, Odisha (programme material).",
       ],
     },
     {
       id: "significance",
-      title: "9. Event Significance",
+      title: "9. SIGNIFICANCE OF THE EVENT",
       paragraphs: [
         "The seminar brought together farmers, women entrepreneurs, researchers, innovators and social leaders around the future of agriculture and rural development.",
         "Recognition of district-level BKS leadership from 10 districts, and the felicitation of 10 women agri-entrepreneurs, strengthened organisational presence and highlighted women-led agricultural entrepreneurship, innovation, value addition and rural economic development.",
@@ -153,7 +163,7 @@ export const napSeminarReport = {
     },
     {
       id: "conclusion",
-      title: "10. Conclusion",
+      title: "10. CONCLUSION",
       paragraphs: [
         "The Seminar on “National Agricultural Policy” organised by Bharatiya Krishak Samaj, Odisha, with the support of Sthapna Charitable Trust, was successfully conducted on 10th September 2026 at Tapaswini Auditorium, Sambalpur.",
         "Approximately 350 participants — including farmers, women agri-entrepreneurs, researchers, innovators and social workers — took part in dialogue, recognition and organisational strengthening.",

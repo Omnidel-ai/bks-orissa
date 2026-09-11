@@ -122,6 +122,16 @@ export function NapSept10EventFeature() {
           {districts.paragraphs.map((p, i) => (
             <p key={`districts-${i}`}>{p}</p>
           ))}
+          {districts.bullets ? (
+            <>
+              <h4 className="nap-event-subhead">Named leadership and district presidents</h4>
+              <ul className="nap-event-list">
+                {districts.bullets.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </>
+          ) : null}
         </NapBlock>
 
         <NapBlock id="nap-women" title={women.title}>

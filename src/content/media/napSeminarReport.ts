@@ -248,6 +248,20 @@ export const napSeminarReport = {
       group: "moments",
     },
     {
+      src: "/assets/media-nap-seminar-speaker-biotez.jpg",
+      alt: "Speaker at the National Agricultural Policy seminar podium with Biotez Agrinovation backdrop, Sambalpur",
+      caption:
+        "A speaker addresses the National Agricultural Policy Seminar in Sambalpur from the podium, with Biotez Agrinovation Pvt. Ltd. messaging on plant growth, soil fertility, organic farming and waste management visible behind — themes that sit within the seminar’s focus on agricultural innovation and agri-enterprise.",
+      group: "moments",
+    },
+    {
+      src: "/assets/media-nap-seminar-speaker-podium.jpg",
+      alt: "Speaker addressing participants from the podium at the National Agricultural Policy seminar, Sambalpur",
+      caption:
+        "A speaker addresses farmers, women agri-entrepreneurs and agricultural stakeholders from the podium during the National Agricultural Policy Seminar at Tapaswini Auditorium, Sambalpur.",
+      group: "moments",
+    },
+    {
       src: "/assets/media-nap-pdf-page1.jpg",
       alt: "Bharatiya Krishak Samaj Odisha programme artwork",
       caption: "Event highlight — programme artwork from the seminar material",

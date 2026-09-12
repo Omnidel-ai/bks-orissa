@@ -4629,8 +4629,14 @@ html[lang="or"] .lang-toggle-select {
 
 .nap-event-profile-photo {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   background: var(--surface-sunk);
+  overflow: hidden;
+}
+
+.nap-event-profile-photo img {
+  object-fit: contain !important;
+  object-position: center center !important;
 }
 
 .nap-event-profile-card h5 {

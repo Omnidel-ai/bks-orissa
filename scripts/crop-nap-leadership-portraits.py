@@ -1,51 +1,79 @@
-"""Crop portrait-only squares from programme-material screenshots."""
+"""Extract leadership/district portraits from programme PDF pages.
+
+Prefer rendered PNGs in tmp-pdf-pages/ (from second.pdf). Falls back to
+rendering the PDF with PyMuPDF when those PNGs are missing.
+
+Crops keep full heads (no aggressive square force-crop).
+"""
+from __future__ import annotations
+
 from pathlib import Path
 
 from PIL import Image
 
-ASSETS = Path(
-    r"C:\Users\asits\.cursor\projects\c-Users-asits-Projects-bks-orissa\assets"
-)
-OUT = Path(__file__).resolve().parents[1] / "public" / "assets" / "nap-profiles"
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "public" / "assets" / "nap-profiles"
+TMP_PAGES = ROOT / "tmp-pdf-pages"
+DEFAULT_PDF = Path(r"C:\Users\asits\Downloads\Mobile Devices\second.pdf")
+TARGET_HEIGHT = 900
+
+# Boxes are for 2x-rendered pages (1584x1224), page numbers 1-based.
+# Inset on the right to avoid the name-column gutter.
+PROFILES = [
+    (7, "saroj-kumar-bhuyan.jpg", (33, 238, 602, 986)),
+    (8, "tapan-kumar-dehury.jpg", (83, 291, 560, 860)),
+    (9, "sandhya-rani-kissan.jpg", (83, 291, 555, 860)),
+    (10, "malaya-kumar-deep.jpg", (83, 291, 555, 860)),
+    (11, "kunja-bihari-samant.jpg", (83, 291, 555, 880)),
+    (12, "mahendra-thakur.jpg", (110, 320, 464, 870)),
+]
 
 
-def crop_save(src: Path, box: tuple[int, int, int, int], dest: Path) -> None:
-    im = Image.open(src).convert("RGB")
-    portrait = im.crop(box)
-    portrait = portrait.resize((640, 640), Image.Resampling.LANCZOS)
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    portrait.save(dest, "JPEG", quality=90, optimize=True)
-    print(f"wrote {dest.name} box={box}")
+def ensure_page_png(page_no: int) -> Path:
+    dest = TMP_PAGES / f"page-{page_no:02d}.png"
+    if dest.exists():
+        return dest
+    import pymupdf
+
+    if not DEFAULT_PDF.exists():
+        raise SystemExit(f"Missing {dest} and PDF not found at {DEFAULT_PDF}")
+    TMP_PAGES.mkdir(parents=True, exist_ok=True)
+    doc = pymupdf.open(DEFAULT_PDF)
+    page = doc[page_no - 1]
+    pix = page.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False)
+    pix.save(dest)
+    return dest
+
+
+def pad_headroom(crop: Image.Image) -> Image.Image:
+    pad_top = max(16, int(crop.height * 0.08))
+    pad_side = max(8, int(crop.width * 0.03))
+    pad_bottom = max(8, int(crop.height * 0.03))
+    bg = crop.getpixel((crop.width // 2, min(4, crop.height - 1)))
+    canvas = Image.new(
+        "RGB",
+        (crop.width + pad_side * 2, crop.height + pad_top + pad_bottom),
+        bg,
+    )
+    canvas.paste(crop, (pad_side, pad_top))
+    return canvas
+
+
+def fit_height(im: Image.Image, height: int = TARGET_HEIGHT) -> Image.Image:
+    ratio = height / im.height
+    width = max(1, int(round(im.width * ratio)))
+    return im.resize((width, height), Image.Resampling.LANCZOS)
 
 
 def main() -> None:
-    saroj_tapan = ASSETS / (
-        "c__Users_asits_AppData_Roaming_Cursor_User_workspaceStorage_"
-        "37e83f98c1064b0d4e7fcef0eedc560d_images_Screenshot_2026-09-12-18-35-37-56_"
-        "c37d74246d9c81aa0bb824b57eaf7062-5025bfed-5728-439d-9fe4-8ba40465a049.jpg"
-    )
-    sandhya_malaya = ASSETS / (
-        "c__Users_asits_AppData_Roaming_Cursor_User_workspaceStorage_"
-        "37e83f98c1064b0d4e7fcef0eedc560d_images_Screenshot_2026-09-12-18-35-41-97_"
-        "c37d74246d9c81aa0bb824b57eaf7062-f4ffc169-8f63-4cc2-aaca-659ddfbd5521.jpg"
-    )
-    kunja_mahendra = ASSETS / (
-        "c__Users_asits_AppData_Roaming_Cursor_User_workspaceStorage_"
-        "37e83f98c1064b0d4e7fcef0eedc560d_images_Screenshot_2026-09-12-18-35-49-95_"
-        "c37d74246d9c81aa0bb824b57eaf7062-e668095a-b023-495a-b0a4-225133613c34.jpg"
-    )
-
-    # Portrait squares only — stop before the name column on the right.
-    crops = [
-        (saroj_tapan, (30, 118, 162, 250), "saroj-kumar-bhuyan.jpg"),
-        (saroj_tapan, (30, 515, 162, 647), "tapan-kumar-dehury.jpg"),
-        (sandhya_malaya, (30, 118, 162, 250), "sandhya-rani-kissan.jpg"),
-        (sandhya_malaya, (30, 515, 162, 647), "malaya-kumar-deep.jpg"),
-        (kunja_mahendra, (30, 118, 162, 250), "kunja-bihari-samant.jpg"),
-        (kunja_mahendra, (30, 515, 162, 647), "mahendra-thakur.jpg"),
-    ]
-    for src, box, name in crops:
-        crop_save(src, box, OUT / name)
+    OUT.mkdir(parents=True, exist_ok=True)
+    for page_no, filename, box in PROFILES:
+        page_path = ensure_page_png(page_no)
+        page = Image.open(page_path).convert("RGB")
+        portrait = fit_height(pad_headroom(page.crop(box)))
+        dest = OUT / filename
+        portrait.save(dest, "JPEG", quality=92, optimize=True)
+        print(f"wrote {dest.name} size={portrait.size}")
 
 
 if __name__ == "__main__":

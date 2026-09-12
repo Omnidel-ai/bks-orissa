@@ -140,7 +140,7 @@ export function NapSept10EventFeature() {
                     alt={profile.name}
                     fill
                     sizes="(max-width: 700px) 45vw, 200px"
-                    style={{ objectFit: "contain", objectPosition: "center" }}
+                    style={{ objectFit: "cover", objectPosition: "center top" }}
                   />
                 </div>
                 <h5>{profile.name}</h5>
@@ -165,7 +165,7 @@ export function NapSept10EventFeature() {
                     alt={profile.name}
                     fill
                     sizes="(max-width: 700px) 45vw, 200px"
-                    style={{ objectFit: "contain", objectPosition: "center" }}
+                    style={{ objectFit: "cover", objectPosition: "center top" }}
                   />
                 </div>
                 <h5>{profile.name}</h5>

@@ -123,15 +123,31 @@ export function NapSept10EventFeature() {
             <p key={`districts-${i}`}>{p}</p>
           ))}
           {districts.bullets ? (
-            <>
-              <h4 className="nap-event-subhead">Named leadership and district presidents</h4>
-              <ul className="nap-event-list">
-                {districts.bullets.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </>
+            <ul className="nap-event-list">
+              {districts.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           ) : null}
+          <h4 className="nap-event-subhead">{report.leadershipProfilesTitle}</h4>
+          <p className="nap-event-note">{report.leadershipProfilesNote}</p>
+          <div className="nap-event-profile-grid">
+            {report.leadershipProfiles.map((profile) => (
+              <article key={profile.name} className="nap-event-profile-card">
+                <div className="nap-event-profile-photo">
+                  <Image
+                    src={profile.image}
+                    alt={profile.name}
+                    fill
+                    sizes="(max-width: 700px) 45vw, 180px"
+                    style={{ objectFit: "cover", objectPosition: "center top" }}
+                  />
+                </div>
+                <h5>{profile.name}</h5>
+                <p>{profile.detail}</p>
+              </article>
+            ))}
+          </div>
         </NapBlock>
 
         <NapBlock id="nap-women" title={women.title}>

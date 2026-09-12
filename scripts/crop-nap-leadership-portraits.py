@@ -20,12 +20,12 @@ TARGET_HEIGHT = 900
 # Boxes are for 2x-rendered pages (1584x1224), page numbers 1-based.
 # Inset on the right to avoid the name-column gutter.
 PROFILES = [
-    (7, "saroj-kumar-bhuyan.jpg", (33, 238, 602, 986)),
-    (8, "tapan-kumar-dehury.jpg", (83, 291, 560, 860)),
-    (9, "sandhya-rani-kissan.jpg", (83, 291, 555, 860)),
-    (10, "malaya-kumar-deep.jpg", (83, 291, 555, 860)),
-    (11, "kunja-bihari-samant.jpg", (83, 291, 555, 880)),
-    (12, "mahendra-thakur.jpg", (110, 320, 464, 870)),
+    (7, "saroj-kumar-bhuyan-v2.jpg", (33, 238, 602, 986)),
+    (8, "tapan-kumar-dehury-v2.jpg", (83, 291, 560, 860)),
+    (9, "sandhya-rani-kissan-v2.jpg", (83, 291, 555, 860)),
+    (10, "malaya-kumar-deep-v2.jpg", (83, 291, 555, 860)),
+    (11, "kunja-bihari-samant-v2.jpg", (83, 291, 555, 880)),
+    (12, "mahendra-thakur-v2.jpg", (110, 320, 464, 870)),
 ]
 
 

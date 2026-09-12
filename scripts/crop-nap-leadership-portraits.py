@@ -20,12 +20,12 @@ TARGET_HEIGHT = 900
 # Boxes are for 2x-rendered pages (1584x1224), page numbers 1-based.
 # Inset on the right to avoid the name-column gutter.
 PROFILES = [
-    (7, "saroj-kumar-bhuyan-v2.jpg", (33, 238, 602, 986)),
-    (8, "tapan-kumar-dehury-v2.jpg", (83, 291, 560, 860)),
-    (9, "sandhya-rani-kissan-v2.jpg", (83, 291, 555, 860)),
-    (10, "malaya-kumar-deep-v2.jpg", (83, 291, 555, 860)),
-    (11, "kunja-bihari-samant-v2.jpg", (83, 291, 555, 880)),
-    (12, "mahendra-thakur-v2.jpg", (110, 320, 464, 870)),
+    (7, "saroj-kumar-bhuyan-v3.jpg", (33, 238, 602, 986)),
+    (8, "tapan-kumar-dehury-v3.jpg", (83, 291, 560, 860)),
+    (9, "sandhya-rani-kissan-v3.jpg", (83, 291, 555, 860)),
+    (10, "malaya-kumar-deep-v3.jpg", (83, 291, 555, 860)),
+    (11, "kunja-bihari-samant-v3.jpg", (83, 291, 555, 880)),
+    (12, "mahendra-thakur-v3.jpg", (110, 320, 464, 870)),
 ]
 
 
@@ -46,9 +46,9 @@ def ensure_page_png(page_no: int) -> Path:
 
 
 def pad_headroom(crop: Image.Image) -> Image.Image:
-    pad_top = max(16, int(crop.height * 0.08))
-    pad_side = max(8, int(crop.width * 0.03))
-    pad_bottom = max(8, int(crop.height * 0.03))
+    pad_top = max(24, int(crop.height * 0.12))
+    pad_side = max(12, int(crop.width * 0.04))
+    pad_bottom = max(12, int(crop.height * 0.04))
     bg = crop.getpixel((crop.width // 2, min(4, crop.height - 1)))
     canvas = Image.new(
         "RGB",

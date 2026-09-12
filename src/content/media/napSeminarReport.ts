@@ -185,34 +185,34 @@ export const napSeminarReport = {
     {
       name: "Sri Saroj Kumar Bhuyan",
       detail: "Secretary, Odisha SEVAC; Coordinator, Bharatiya Krishak Samaj, Odisha",
-      image: "/assets/nap-profiles/saroj-kumar-bhuyan-v2.jpg",
+      image: "/assets/nap-profiles/saroj-kumar-bhuyan-v3.jpg",
     },
     {
       name: "Sri Tapan Kumar Dehury",
       detail: "Director, Odisha SEVAC; Vice President, Bharatiya Krishak Samaj, Odisha",
-      image: "/assets/nap-profiles/tapan-kumar-dehury-v2.jpg",
+      image: "/assets/nap-profiles/tapan-kumar-dehury-v3.jpg",
     },
     {
       name: "Smt. Sandhya Rani Kissan",
       detail:
         'Pioneer — “Control Environment Saffron Cultivation”, Jharsuguda; District President, Bharatiya Krishak Samaj (Women Wing), Deogarh District',
-      image: "/assets/nap-profiles/sandhya-rani-kissan-v2.jpg",
+      image: "/assets/nap-profiles/sandhya-rani-kissan-v3.jpg",
     },
     {
       name: "Sri Malaya Kumar Deep",
       detail:
         "State & National Awardee — Roof Top Garden Competition; District President, Bharatiya Krishak Samaj, Kalahandi District",
-      image: "/assets/nap-profiles/malaya-kumar-deep-v2.jpg",
+      image: "/assets/nap-profiles/malaya-kumar-deep-v3.jpg",
     },
     {
       name: "Sri Kunja Bihari Samant",
       detail: "District President, Bharatiya Krishak Samaj, Sundargarh District",
-      image: "/assets/nap-profiles/kunja-bihari-samant-v2.jpg",
+      image: "/assets/nap-profiles/kunja-bihari-samant-v3.jpg",
     },
     {
       name: "Sri Mahendra Thakur",
       detail: "District President, Bharatiya Krishak Samaj, Deogarh District",
-      image: "/assets/nap-profiles/mahendra-thakur-v2.jpg",
+      image: "/assets/nap-profiles/mahendra-thakur-v3.jpg",
     },
   ] satisfies NapLeadershipProfile[],
   womenProfilesTitle: "Recognised women agri-entrepreneurs — individual profiles from programme material",

@@ -4630,13 +4630,13 @@ html[lang="or"] .lang-toggle-select {
 .nap-event-profile-photo {
   position: relative;
   aspect-ratio: 4 / 5;
-  background: var(--surface-sunk);
+  background: #e8ebe4;
   overflow: hidden;
 }
 
 .nap-event-profile-photo img {
-  object-fit: cover !important;
-  object-position: center top !important;
+  object-fit: contain !important;
+  object-position: center center !important;
 }
 
 .nap-event-profile-card h5 {

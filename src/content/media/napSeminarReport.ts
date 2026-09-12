@@ -18,6 +18,12 @@ export type NapWomanProfile = {
   image: string;
 };
 
+export type NapLeadershipProfile = {
+  name: string;
+  detail: string;
+  image: string;
+};
+
 export type NapGalleryItem = {
   src: string;
   alt: string;
@@ -84,15 +90,10 @@ export const napSeminarReport = {
       paragraphs: [
         "District Presidents of Bharatiya Krishak Samaj from 10 districts of Western Odisha were recognised during the programme. Both male and female representatives were recognised.",
         "This recognition formed part of organisational strengthening. It was intended to encourage district-level leadership and to strengthen the BKS organisational network among farmers and rural communities.",
-        "The following names and designations appear in the supplied programme material. Only source-supported designations are listed; no additional biographies have been added.",
+        "The following named leadership and district profiles appear in the supplied programme material. Only source-supported designations are listed; no additional biographies have been added.",
       ],
       bullets: [
         "Krishan Bir Chaudhary — Member, Prime Minister’s High Level Committee on MSP",
-        "Sri Tapan Kumar Dehury — Director, Odisha SEVAC; Vice President, Bharatiya Krishak Samaj, Odisha",
-        "Smt. Sandhya Rani Kissan — District President, Bharatiya Krishak Samaj (Women Wing), Deogarh District; Pioneer — “Control Environment Saffron Cultivation”, Jharsuguda",
-        "Sri Malaya Kumar Deep — District President, Bharatiya Krishak Samaj, Kalahandi District; State & National Awardee — Roof Top Garden Competition",
-        "Sri Kunja Bihari Samant — District President, Bharatiya Krishak Samaj, Sundargarh District",
-        "Sri Mahendra Thakur — District President, Bharatiya Krishak Samaj, Deogarh District",
       ],
     },
     {
@@ -177,6 +178,43 @@ export const napSeminarReport = {
     role: "State President (Women), Bharatiya Krishak Samaj, Odisha",
     image: "/assets/nap-profiles/nibedita-balisingh-nayak.jpg",
   },
+  leadershipProfilesTitle: "Named leadership and district presidents — profiles from programme material",
+  leadershipProfilesNote:
+    "The following individual profiles are published from the supplied programme material (second.pdf). Designations are shown exactly as supported by that source.",
+  leadershipProfiles: [
+    {
+      name: "Sri Saroj Kumar Bhuyan",
+      detail: "Secretary, Odisha SEVAC; Coordinator, Bharatiya Krishak Samaj, Odisha",
+      image: "/assets/nap-profiles/saroj-kumar-bhuyan.jpg",
+    },
+    {
+      name: "Sri Tapan Kumar Dehury",
+      detail: "Director, Odisha SEVAC; Vice President, Bharatiya Krishak Samaj, Odisha",
+      image: "/assets/nap-profiles/tapan-kumar-dehury.jpg",
+    },
+    {
+      name: "Smt. Sandhya Rani Kissan",
+      detail:
+        'Pioneer — “Control Environment Saffron Cultivation”, Jharsuguda; District President, Bharatiya Krishak Samaj (Women Wing), Deogarh District',
+      image: "/assets/nap-profiles/sandhya-rani-kissan.jpg",
+    },
+    {
+      name: "Sri Malaya Kumar Deep",
+      detail:
+        "State & National Awardee — Roof Top Garden Competition; District President, Bharatiya Krishak Samaj, Kalahandi District",
+      image: "/assets/nap-profiles/malaya-kumar-deep.jpg",
+    },
+    {
+      name: "Sri Kunja Bihari Samant",
+      detail: "District President, Bharatiya Krishak Samaj, Sundargarh District",
+      image: "/assets/nap-profiles/kunja-bihari-samant.jpg",
+    },
+    {
+      name: "Sri Mahendra Thakur",
+      detail: "District President, Bharatiya Krishak Samaj, Deogarh District",
+      image: "/assets/nap-profiles/mahendra-thakur.jpg",
+    },
+  ] satisfies NapLeadershipProfile[],
   womenProfilesTitle: "Recognised women agri-entrepreneurs — individual profiles from programme material",
   womenProfilesNote:
     "Ten women agri-entrepreneurs were recognised. The following eight individual profiles are published from the supplied source material; additional profiles were not available in the supplied files and have not been invented.",

@@ -232,7 +232,10 @@ export function NapSept10EventFeature() {
                     alt={item.alt}
                     fill
                     sizes="(max-width: 800px) 100vw, 50vw"
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: item.objectPosition ?? "center",
+                    }}
                   />
                 </div>
                 <figcaption>{item.caption}</figcaption>
@@ -250,7 +253,10 @@ export function NapSept10EventFeature() {
                     alt={item.alt}
                     fill
                     sizes="(max-width: 800px) 100vw, 50vw"
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: item.objectPosition ?? "center",
+                    }}
                   />
                 </div>
                 <figcaption>{item.caption}</figcaption>

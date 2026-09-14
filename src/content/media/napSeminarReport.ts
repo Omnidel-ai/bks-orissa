@@ -29,6 +29,7 @@ export type NapGalleryItem = {
   alt: string;
   caption: string;
   group: "hero" | "moments" | "leadership" | "highlights";
+  objectPosition?: string;
 };
 
 export const napSeminarReport = {
@@ -297,6 +298,34 @@ export const napSeminarReport = {
       alt: "Speaker addressing participants from the podium at the National Agricultural Policy seminar, Sambalpur",
       caption:
         "A speaker addresses farmers, women agri-entrepreneurs and agricultural stakeholders from the podium during the National Agricultural Policy Seminar at Tapaswini Auditorium, Sambalpur.",
+      group: "moments",
+    },
+    {
+      src: "/assets/media-nap-seminar-stage-group.jpg",
+      alt: "Organisers and guests on stage at the National Agricultural Policy discussion, Bharatiya Krishak Samaj Odisha",
+      caption:
+        "Organisers and guests on stage during the National Agricultural Policy discussion organised by Bharatiya Krishak Samaj, Odisha.",
+      group: "moments",
+      objectPosition: "center top",
+    },
+    {
+      src: "/assets/media-nap-seminar-felicitation.jpg",
+      alt: "Felicitation on stage at the National Agricultural Policy programme, Bharatiya Krishak Samaj Odisha",
+      caption:
+        "Felicitation on stage at the National Agricultural Policy programme — Bharatiya Krishak Samaj, Odisha.",
+      group: "moments",
+    },
+    {
+      src: "/assets/media-nap-seminar-guests-front-row.jpg",
+      alt: "Guests seated in the front rows during the National Agricultural Policy programme",
+      caption: "Guests in the front rows during the National Agricultural Policy discussion.",
+      group: "moments",
+    },
+    {
+      src: "/assets/media-nap-seminar-folk-dance.jpg",
+      alt: "Traditional folk dance during the National Agricultural Policy programme, Bharatiya Krishak Samaj Odisha",
+      caption:
+        "Traditional folk dance during the National Agricultural Policy programme organised by Bharatiya Krishak Samaj, Odisha.",
       group: "moments",
     },
     {

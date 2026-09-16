@@ -1,11 +1,19 @@
 /** Default district when admin opens with no stored selection (state capital region). */
 export const DEFAULT_DISTRICT_ID = "khordha" as const;
 
-/** Odisha-isolated storage bucket — never reuse West Bengal `district-members`. */
+/**
+ * Shared BKS Supabase project hosts Bengal + Odisha.
+ * Canonical data: odisha_bks.district_members / odisha_bks.district_presence
+ * App queries security_invoker views in public for PostgREST compatibility.
+ * Never query public.bks_district_members (Bengal).
+ */
+export const ODISHA_SCHEMA = "odisha_bks" as const;
+
+/** Odisha-isolated storage bucket — never reuse Bengal `district-members`. */
 export const DISTRICT_MEMBER_STORAGE_BUCKET = "odisha-district-members";
 
-export const MEMBERS_TABLE = "bks_odisha_district_members" as const;
-export const PRESENCE_TABLE = "bks_odisha_district_presence" as const;
+export const MEMBERS_TABLE = "odisha_bks_district_members" as const;
+export const PRESENCE_TABLE = "odisha_bks_district_presence" as const;
 
 export const PUBLIC_MEMBER_COLUMNS =
   "id, district_id, slug, full_name, photo_path, designation, village, block, area, bio, category, display_order" as const;

@@ -4,8 +4,10 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 /**
  * Server-only Supabase helpers for BKS Odisha district members.
+ * Uses the shared BKS Supabase project (same host as Bengal).
+ * Odisha data is isolated in schema odisha_bks (+ public API facade views).
  * Never import from client components.
- * Never point this app at the West Bengal Supabase project.
+ * Never mutate Bengal tables (public.bks_district_*).
  */
 
 let cachedAnon: SupabaseClient | null = null;
@@ -23,7 +25,7 @@ export function isSupabaseAdminConfigured(): boolean {
   );
 }
 
-/** Anon client — public SELECT of published members (RLS enforced). */
+/** Anon client — public SELECT of published Odisha members (RLS enforced). */
 export function getSupabaseAnonClient(): SupabaseClient {
   if (cachedAnon) return cachedAnon;
 
@@ -43,7 +45,7 @@ export function getSupabaseAnonClient(): SupabaseClient {
 }
 
 /**
- * Service-role client for admin mutations.
+ * Service-role client for Odisha admin mutations.
  * Use only behind assertAdminKey() on API routes.
  */
 export function getSupabaseAdminClient(): SupabaseClient {

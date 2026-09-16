@@ -132,6 +132,7 @@ export default function DistrictMembersAdmin() {
   const key = useSyncExternalStore(keySubscribe, keySnapshot, () => "");
   const [authGate, setAuthGate] = useState<AuthGate>("login");
   const [keyInput, setKeyInput] = useState("");
+  const [showKey, setShowKey] = useState(false);
   const [districtId, setDistrictId] = useState<string>(DEFAULT_DISTRICT_ID);
   const [districtStatus, setDistrictStatus] = useState<PresenceStatus>("upcoming");
   const [items, setItems] = useState<AdminMember[] | null>(null);
@@ -248,9 +249,12 @@ export default function DistrictMembersAdmin() {
         if (cancelled) return;
         if (ok) {
           setAuthGate("ready");
+          setKeyInput("");
+          setShowKey(false);
           return;
         }
         // 401 clears the stored key; only then return to login.
+        // Keep typed keyInput so the user can correct and retry.
         // Other errors keep the panel open with the message.
         try {
           const still = window.sessionStorage.getItem(KEY_STORAGE) ?? "";
@@ -297,8 +301,9 @@ export default function DistrictMembersAdmin() {
     const value = keyInput.trim();
     if (!value) return;
     setError("");
+    setShowKey(false);
     setAuthGate("verifying");
-    setKeyInput("");
+    // Keep keyInput so an invalid attempt can be corrected without retyping.
     writeStoredKey(value);
   }
 
@@ -549,9 +554,9 @@ export default function DistrictMembersAdmin() {
 
   if (authGate === "login" || !key) {
     return (
-      <main className="wrap admin-district-members" style={{ maxWidth: 480, padding: "4rem 1.25rem" }}>
+      <main className="wrap admin-district-members admin-login" style={{ maxWidth: 480, padding: "2.5rem 1rem 3rem" }}>
         <div className="admin-header-row" style={{ marginBottom: "1rem" }}>
-          <div>
+          <div className="admin-header-copy">
             <p className="kicker" style={{ color: "var(--paddy-gold)" }}>
               {copy.kicker}
             </p>
@@ -564,20 +569,32 @@ export default function DistrictMembersAdmin() {
         <p style={{ color: "var(--ink-soft)" }}>{copy.loginHint}</p>
         <label className="admin-field">
           {copy.adminKeyLabel}
-          <input
-            type="password"
-            value={keyInput}
-            autoComplete="off"
-            onChange={(e) => setKeyInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") submitKey();
-            }}
-          />
+          <div className="admin-key-row">
+            <input
+              type={showKey ? "text" : "password"}
+              value={keyInput}
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) => setKeyInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") submitKey();
+              }}
+            />
+            <button
+              type="button"
+              className="admin-btn admin-key-toggle"
+              onClick={() => setShowKey((v) => !v)}
+              aria-pressed={showKey}
+              aria-label={showKey ? copy.hideKey : copy.showKey}
+            >
+              {showKey ? copy.hideKey : copy.showKey}
+            </button>
+          </div>
         </label>
         {error ? <p className="admin-msg error" role="alert">{error}</p> : null}
         <button
           type="button"
-          className="admin-btn primary"
+          className="admin-btn primary admin-login-submit"
           onClick={submitKey}
           disabled={!keyInput.trim()}
         >
@@ -589,9 +606,9 @@ export default function DistrictMembersAdmin() {
 
   if (authGate === "verifying") {
     return (
-      <main className="wrap admin-district-members" style={{ maxWidth: 480, padding: "4rem 1.25rem" }}>
+      <main className="wrap admin-district-members admin-login" style={{ maxWidth: 480, padding: "2.5rem 1rem 3rem" }}>
         <div className="admin-header-row" style={{ marginBottom: "1rem" }}>
-          <div>
+          <div className="admin-header-copy">
             <p className="kicker" style={{ color: "var(--paddy-gold)" }}>
               {copy.kicker}
             </p>
@@ -609,9 +626,9 @@ export default function DistrictMembersAdmin() {
   }
 
   return (
-    <main className="wrap admin-district-members" style={{ padding: "2rem 1.25rem 4rem" }}>
+    <main className="wrap admin-district-members" style={{ padding: "1.5rem 1rem 3.5rem" }}>
       <div className="admin-header-row">
-        <div>
+        <div className="admin-header-copy">
           <p className="kicker" style={{ color: "var(--paddy-gold)", marginBottom: 0 }}>
             {copy.kicker}
           </p>
@@ -626,7 +643,10 @@ export default function DistrictMembersAdmin() {
             className="admin-btn ghost"
             onClick={() => {
               writeStoredKey("");
+              setKeyInput("");
+              setShowKey(false);
               setItems(null);
+              setError("");
               setAuthGate("login");
             }}
           >

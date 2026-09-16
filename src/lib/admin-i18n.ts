@@ -54,6 +54,8 @@ export type AdminCopy = {
   draft: string;
   language: string;
   verifying: string;
+  showKey: string;
+  hideKey: string;
   errBadKey: string;
   errNameRequired: string;
   errLoad: string;
@@ -72,8 +74,8 @@ const EN: AdminCopy = {
   kicker: "Odisha — 30 districts",
   title: "BKS member management",
   loginHint:
-    "Sign in with an authorised admin key. The key stays only in this browser tab.",
-  adminKeyLabel: "Admin key",
+    "Sign in with the Odisha Admin Key. The key stays only in this browser tab.",
+  adminKeyLabel: "Odisha Admin Key",
   enter: "Enter",
   leave: "Leave",
   districtSelect: "Select district",
@@ -123,8 +125,11 @@ const EN: AdminCopy = {
   published: "Published",
   draft: "Draft",
   language: "Language",
-  verifying: "Checking admin key…",
-  errBadKey: "Admin key is not correct.",
+  verifying: "Checking Odisha Admin Key…",
+  showKey: "Show",
+  hideKey: "Hide",
+  errBadKey:
+    "Invalid Odisha Admin Key. Please check the key and try again.",
   errNameRequired: "Enter a name.",
   errLoad: "Could not load data.",
   errSave: "Could not save member.",
@@ -143,8 +148,8 @@ const OR: AdminCopy = {
   kicker: "ଓଡ଼ିଶା — ୩୦ ଜିଲ୍ଲା",
   title: "BKS ସଦସ୍ୟ ପରିଚାଳନା",
   loginHint:
-    "ଅନୁମୋଦିତ ଆଡମିନ୍ କି ସହ ପ୍ରବେଶ କରନ୍ତୁ। କି କେବଳ ଏହି ବ୍ରାଉଜର୍ ଟ୍ୟାବରେ ମନେ ରଖାଯାଏ।",
-  adminKeyLabel: "ଆଡମିନ୍ କି",
+    "ଓଡ଼ିଶା ଆଡମିନ୍ କି ସହ ପ୍ରବେଶ କରନ୍ତୁ। କି କେବଳ ଏହି ବ୍ରାଉଜର୍ ଟ୍ୟାବରେ ମନେ ରଖାଯାଏ।",
+  adminKeyLabel: "ଓଡ଼ିଶା ଆଡମିନ୍ କି",
   enter: "ପ୍ରବେଶ କରନ୍ତୁ",
   leave: "ପ୍ରସ୍ଥାନ",
   districtSelect: "ଜିଲ୍ଲା ଚୟନ",
@@ -193,8 +198,11 @@ const OR: AdminCopy = {
   published: "ପ୍ରକାଶିତ",
   draft: "ଖସଡ଼ା",
   language: "ଭାଷା",
-  verifying: "ଆଡମିନ୍ କି ଯାଞ୍ଚ ହେଉଛି…",
-  errBadKey: "ଆଡମିନ୍ କି ସଠିକ୍ ନୁହେଁ।",
+  verifying: "ଓଡ଼ିଶା ଆଡମିନ୍ କି ଯାଞ୍ଚ ହେଉଛି…",
+  showKey: "ଦେଖାନ୍ତୁ",
+  hideKey: "ଲୁଚାନ୍ତୁ",
+  errBadKey:
+    "ଅବୈଧ ଓଡ଼ିଶା ଆଡମିନ୍ କି। ଦୟାକରି କି ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
   errNameRequired: "ନାମ ଲେଖନ୍ତୁ।",
   errLoad: "ତଥ୍ୟ ଲୋଡ୍ କରାଯାଇପାରିଲା ନାହିଁ।",
   errSave: "ସଦସ୍ୟ ସଂରକ୍ଷଣ ବିଫଳ।",
@@ -213,8 +221,8 @@ const HI: AdminCopy = {
   kicker: "ओडिशा — ३० ज़िले",
   title: "BKS सदस्य प्रबंधन",
   loginHint:
-    "अधिकृत एडमिन कुंजी से प्रवेश करें। कुंजी केवल इस ब्राउज़र टैब में रहती है।",
-  adminKeyLabel: "एडमिन कुंजी",
+    "ओडिशा एडमिन कुंजी से प्रवेश करें। कुंजी केवल इस ब्राउज़र टैब में रहती है।",
+  adminKeyLabel: "ओडिशा एडमिन कुंजी",
   enter: "प्रवेश करें",
   leave: "बाहर जाएँ",
   districtSelect: "ज़िला चुनें",
@@ -264,8 +272,11 @@ const HI: AdminCopy = {
   published: "प्रकाशित",
   draft: "मसौदा",
   language: "भाषा",
-  verifying: "एडमिन कुंजी जाँची जा रही है…",
-  errBadKey: "एडमिन कुंजी सही नहीं है।",
+  verifying: "ओडिशा एडमिन कुंजी जाँची जा रही है…",
+  showKey: "दिखाएँ",
+  hideKey: "छिपाएँ",
+  errBadKey:
+    "अमान्य ओडिशा एडमिन कुंजी। कृपया कुंजी जाँचकर फिर से कोशिश करें।",
   errNameRequired: "नाम लिखें।",
   errLoad: "डेटा लोड नहीं हो सका।",
   errSave: "सदस्य सहेजा नहीं जा सका।",

@@ -5,9 +5,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Shared BKS admin key gate.
+ * Odisha-only admin key gate for this repository.
  * Browser may hold the key in sessionStorage and send it as `x-admin-key`.
- * The expected value lives only in process.env.BKS_ADMIN_KEY.
+ * The expected value lives only in process.env.ODISHA_BKS_ADMIN_KEY.
+ * Independent from Bengal's BKS_ADMIN_KEY — no cross-dependency.
  */
 
 function keyMatches(provided: string, expected: string): boolean {
@@ -21,7 +22,7 @@ export type AdminAuthResult =
   | { ok: false; response: NextResponse };
 
 export function assertAdminKey(req: NextRequest): AdminAuthResult {
-  const expected = process.env.BKS_ADMIN_KEY;
+  const expected = process.env.ODISHA_BKS_ADMIN_KEY;
   if (!expected) {
     return {
       ok: false,

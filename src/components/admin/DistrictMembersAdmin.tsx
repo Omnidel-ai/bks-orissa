@@ -9,8 +9,15 @@ import {
 } from "react";
 import type { PresenceStatus } from "@/content/presence";
 import { getDistrictCatalog } from "@/lib/district-members/catalog";
-import { LATIN_SCRIPT_MESSAGE_OR } from "@/lib/district-members/latin-script";
+import {
+  LATIN_SCRIPT_MESSAGE_EN,
+  LATIN_SCRIPT_MESSAGE_HI,
+  LATIN_SCRIPT_MESSAGE_OR,
+} from "@/lib/district-members/latin-script";
 import { DEFAULT_DISTRICT_ID } from "@/lib/district-members/types";
+import { adminT } from "@/lib/admin-i18n";
+import type { Locale } from "@/lib/i18n";
+import { useAdminLocale } from "@/lib/useAdminLocale";
 
 type AdminMember = {
   id: string;
@@ -109,10 +116,21 @@ function memberToForm(m: AdminMember): FormState {
   };
 }
 
+function latinHint(locale: Locale) {
+  if (locale === "hi") return LATIN_SCRIPT_MESSAGE_HI;
+  if (locale === "or") return LATIN_SCRIPT_MESSAGE_OR;
+  return LATIN_SCRIPT_MESSAGE_EN;
+}
+
 const catalog = getDistrictCatalog();
 
+type AuthGate = "login" | "verifying" | "ready";
+
 export default function DistrictMembersAdmin() {
+  const [locale, setLocale] = useAdminLocale();
+  const copy = adminT(locale);
   const key = useSyncExternalStore(keySubscribe, keySnapshot, () => "");
+  const [authGate, setAuthGate] = useState<AuthGate>("login");
   const [keyInput, setKeyInput] = useState("");
   const [districtId, setDistrictId] = useState<string>(DEFAULT_DISTRICT_ID);
   const [districtStatus, setDistrictStatus] = useState<PresenceStatus>("upcoming");
@@ -161,7 +179,7 @@ export default function DistrictMembersAdmin() {
   }, []);
 
   const load = useCallback(
-    async (adminKey: string, id: string) => {
+    async (adminKey: string, id: string): Promise<boolean> => {
       setLoading(true);
       setError("");
       try {
@@ -175,7 +193,10 @@ export default function DistrictMembersAdmin() {
         });
         if (res.status === 401) {
           writeStoredKey("");
-          throw new Error("ଆଡମିନ୍ କି ସଠିକ୍ ନୁହେଁ।");
+          setAuthGate("login");
+          setItems(null);
+          setError(copy.errBadKey);
+          return false;
         }
         if (res.status === 503) {
           setDbConfigured(false);
@@ -183,14 +204,17 @@ export default function DistrictMembersAdmin() {
           setCounts({ total: 0, published: 0, draft: 0 });
           const body = await res.json().catch(() => ({}));
           setError(
-            body?.messageOr ||
-              "ଡାଟାବେସ ଏପର୍ଯ୍ୟନ୍ତ ସଂଯୋଗ ହୋଇନାହିଁ। ମାଇଗ୍ରେସନ୍ ପ୍ରୟୋଗ ପରେ କାମ କରିବ।",
+            (body?.messageOr as string) ||
+              (body?.message as string) ||
+              copy.dbPendingOr,
           );
-          return;
+          return true;
         }
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
-          throw new Error(body?.messageOr || body?.error || "ତଥ୍ୟ ଲୋଡ୍ କରାଯାଇପାରିଲା ନାହିଁ।");
+          throw new Error(
+            (body?.messageOr as string) || (body?.error as string) || copy.errLoad,
+          );
         }
         setDbConfigured(true);
         const body = (await res.json()) as {
@@ -200,19 +224,46 @@ export default function DistrictMembersAdmin() {
         setItems(body.items);
         setCounts(body.counts);
         await loadPresence(adminKey, id);
+        return true;
       } catch (err) {
-        setError(err instanceof Error ? err.message : "ତଥ୍ୟ ଲୋଡ୍ କରାଯାଇପାରିଲା ନାହିଁ।");
+        setError(err instanceof Error ? err.message : copy.errLoad);
+        return false;
       } finally {
         setLoading(false);
       }
     },
-    [search, statusFilter, loadPresence],
+    [search, statusFilter, loadPresence, copy.errBadKey, copy.errLoad, copy.dbPendingOr],
   );
 
   useEffect(() => {
-    if (!key) return;
-    const t = setTimeout(() => void load(key, districtId), 0);
-    return () => clearTimeout(t);
+    if (!key) {
+      setAuthGate("login");
+      return;
+    }
+    let cancelled = false;
+    setAuthGate((prev) => (prev === "ready" ? "ready" : "verifying"));
+    const t = setTimeout(() => {
+      void (async () => {
+        const ok = await load(key, districtId);
+        if (cancelled) return;
+        if (ok) {
+          setAuthGate("ready");
+          return;
+        }
+        // 401 clears the stored key; only then return to login.
+        // Other errors keep the panel open with the message.
+        try {
+          const still = window.sessionStorage.getItem(KEY_STORAGE) ?? "";
+          setAuthGate(still ? "ready" : "login");
+        } catch {
+          setAuthGate("login");
+        }
+      })();
+    }, 0);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
   }, [key, load, districtId]);
 
   useEffect(() => {
@@ -227,9 +278,26 @@ export default function DistrictMembersAdmin() {
 
   const sorted = useMemo(() => items ?? [], [items]);
 
+  const languageSwitcher = (
+    <label className="admin-field inline admin-lang-switch">
+      {copy.language}
+      <select
+        value={locale}
+        onChange={(e) => setLocale(e.target.value as Locale)}
+        aria-label={copy.language}
+      >
+        <option value="en">English</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </label>
+  );
+
   function submitKey() {
     const value = keyInput.trim();
     if (!value) return;
+    setError("");
+    setAuthGate("verifying");
     setKeyInput("");
     writeStoredKey(value);
   }
@@ -285,12 +353,14 @@ export default function DistrictMembersAdmin() {
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(body?.messageOr || body?.error || "ସ୍ଥିତି ଅଦ୍ୟତନ ବିଫଳ।");
+        throw new Error(
+          (body?.messageOr as string) || (body?.error as string) || copy.errStatus,
+        );
       }
       setDistrictStatus(next);
-      setSuccess("ଜିଲ୍ଲା Presence ସ୍ଥିତି ଅଦ୍ୟତନ ହୋଇଛି।");
+      setSuccess(copy.okStatus);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "ସ୍ଥିତି ଅଦ୍ୟତନ ବିଫଳ।");
+      setError(err instanceof Error ? err.message : copy.errStatus);
     } finally {
       setSaving(false);
     }
@@ -299,7 +369,7 @@ export default function DistrictMembersAdmin() {
   async function saveMember() {
     if (!key) return;
     if (!form.full_name.trim()) {
-      setError("ନାମ ଲେଖନ୍ତୁ।");
+      setError(copy.errNameRequired);
       return;
     }
     setSaving(true);
@@ -330,7 +400,9 @@ export default function DistrictMembersAdmin() {
         });
         const body = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(body?.messageOr || body?.error || "ସଂରକ୍ଷଣ ବିଫଳ।");
+          throw new Error(
+            (body?.messageOr as string) || (body?.error as string) || copy.errSave,
+          );
         }
         memberId = body.item.id as string;
       } else if (editingId) {
@@ -344,7 +416,9 @@ export default function DistrictMembersAdmin() {
         });
         const body = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(body?.messageOr || body?.error || "ଅଦ୍ୟତନ ବିଫଳ।");
+          throw new Error(
+            (body?.messageOr as string) || (body?.error as string) || copy.errSave,
+          );
         }
       }
 
@@ -362,19 +436,21 @@ export default function DistrictMembersAdmin() {
         const photoBody = await photoRes.json().catch(() => ({}));
         if (!photoRes.ok) {
           throw new Error(
-            photoBody?.messageOr || photoBody?.error || "ଛବି ଅପଲୋଡ୍ ବିଫଳ।",
+            (photoBody?.messageOr as string) ||
+              (photoBody?.error as string) ||
+              copy.errPhoto,
           );
         }
       }
 
-      setSuccess("ସଦସ୍ୟ ତଥ୍ୟ ସଫଳତାର ସହ ସଂରକ୍ଷିତ ହୋଇଛି।");
+      setSuccess(copy.okSaved);
       setMode("list");
       setEditingId(null);
       setForm(EMPTY_FORM);
       setPhotoFile(null);
       await load(key, districtId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "ସଂରକ୍ଷଣ କରାଯାଇପାରିଲା ନାହିଁ।");
+      setError(err instanceof Error ? err.message : copy.errSave);
     } finally {
       setSaving(false);
     }
@@ -395,12 +471,14 @@ export default function DistrictMembersAdmin() {
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(body?.messageOr || body?.error || "କାମ ବିଫଳ ହେଲା।");
+        throw new Error(
+          (body?.messageOr as string) || (body?.error as string) || copy.errSave,
+        );
       }
-      setSuccess("ଅଦ୍ୟତନ ହୋଇଛି।");
       await load(key, districtId);
+      setSuccess(copy.okSaved);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "କାମ ବିଫଳ ହେଲା।");
+      setError(err instanceof Error ? err.message : copy.errSave);
     } finally {
       setSaving(false);
     }
@@ -408,38 +486,41 @@ export default function DistrictMembersAdmin() {
 
   async function archiveMember(id: string, name: string) {
     if (!key) return;
-    const ok = window.confirm(
-      `"${name}" ସଦସ୍ୟଙ୍କୁ ସକ୍ରିୟ ତାଲିକାରୁ ହଟାଇବେ କି?\n\nଏହା soft archive — ତଥ୍ୟ ସ୍ଥାୟୀ ଭାବେ ଡିଲିଟ୍ ହେବ ନାହିଁ।`,
-    );
-    if (!ok) return;
+    if (!window.confirm(`${copy.archiveConfirm}\n\n${name}`)) return;
     setSaving(true);
     setError("");
     try {
       const res = await fetch(`/api/admin/district-members/${id}`, {
-        method: "DELETE",
-        headers: { "x-admin-key": key },
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          "x-admin-key": key,
+        },
+        body: JSON.stringify({ is_archived: true, is_published: false }),
       });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(body?.messageOr || body?.error || "ହଟାଇହେଲା ନାହିଁ।");
+        throw new Error(
+          (body?.messageOr as string) || (body?.error as string) || copy.errArchive,
+        );
       }
-      setSuccess("ସଦସ୍ୟଙ୍କୁ ପ୍ରକାଶରୁ ହଟାଇ ଦିଆଯାଇଛି।");
+      setSuccess(copy.okArchived);
       await load(key, districtId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "ହଟାଇହେଲା ନାହିଁ।");
+      setError(err instanceof Error ? err.message : copy.errArchive);
     } finally {
       setSaving(false);
     }
   }
 
   async function moveOrder(id: string, direction: "up" | "down") {
-    if (!items || !key) return;
-    const idx = items.findIndex((m) => m.id === id);
-    if (idx < 0) return;
-    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
-    if (swapIdx < 0 || swapIdx >= items.length) return;
-    const a = items[idx];
-    const b = items[swapIdx];
+    if (!key || !items) return;
+    const index = items.findIndex((m) => m.id === id);
+    if (index < 0) return;
+    const swapWith = direction === "up" ? index - 1 : index + 1;
+    if (swapWith < 0 || swapWith >= items.length) return;
+    const a = items[index];
+    const b = items[swapWith];
     setSaving(true);
     try {
       await Promise.all([
@@ -466,20 +547,23 @@ export default function DistrictMembersAdmin() {
     }
   }
 
-  if (!key) {
+  if (authGate === "login" || !key) {
     return (
       <main className="wrap admin-district-members" style={{ maxWidth: 480, padding: "4rem 1.25rem" }}>
-        <p className="kicker" style={{ color: "var(--paddy-gold)" }}>
-          ଓଡ଼ିଶା — ୩୦ ଜିଲ୍ଲା
-        </p>
-        <h1 style={{ fontFamily: "var(--font-display)", color: "var(--field-green)", marginTop: 0 }}>
-          BKS ସଦସ୍ୟ ପରିଚାଳନା
-        </h1>
-        <p style={{ color: "var(--ink-soft)" }}>
-          ଅନୁମୋଦିତ ଆଡମିନ୍ କି ସହ ପ୍ରବେଶ କରନ୍ତୁ। କି କେବଳ ଏହି ବ୍ରାଉଜର୍ ଟ୍ୟାବରେ ମନେ ରଖାଯାଏ।
-        </p>
+        <div className="admin-header-row" style={{ marginBottom: "1rem" }}>
+          <div>
+            <p className="kicker" style={{ color: "var(--paddy-gold)" }}>
+              {copy.kicker}
+            </p>
+            <h1 style={{ fontFamily: "var(--font-display)", color: "var(--field-green)", marginTop: 0 }}>
+              {copy.title}
+            </h1>
+          </div>
+          {languageSwitcher}
+        </div>
+        <p style={{ color: "var(--ink-soft)" }}>{copy.loginHint}</p>
         <label className="admin-field">
-          ଆଡମିନ୍ କି
+          {copy.adminKeyLabel}
           <input
             type="password"
             value={keyInput}
@@ -497,8 +581,29 @@ export default function DistrictMembersAdmin() {
           onClick={submitKey}
           disabled={!keyInput.trim()}
         >
-          ପ୍ରବେଶ କରନ୍ତୁ
+          {copy.enter}
         </button>
+      </main>
+    );
+  }
+
+  if (authGate === "verifying") {
+    return (
+      <main className="wrap admin-district-members" style={{ maxWidth: 480, padding: "4rem 1.25rem" }}>
+        <div className="admin-header-row" style={{ marginBottom: "1rem" }}>
+          <div>
+            <p className="kicker" style={{ color: "var(--paddy-gold)" }}>
+              {copy.kicker}
+            </p>
+            <h1 style={{ fontFamily: "var(--font-display)", color: "var(--field-green)", marginTop: 0 }}>
+              {copy.title}
+            </h1>
+          </div>
+          {languageSwitcher}
+        </div>
+        <p role="status" style={{ color: "var(--ink-soft)" }}>
+          {copy.verifying}
+        </p>
       </main>
     );
   }
@@ -508,33 +613,34 @@ export default function DistrictMembersAdmin() {
       <div className="admin-header-row">
         <div>
           <p className="kicker" style={{ color: "var(--paddy-gold)", marginBottom: 0 }}>
-            ଓଡ଼ିଶା
+            {copy.kicker}
           </p>
           <h1 style={{ fontFamily: "var(--font-display)", color: "var(--field-green)", margin: "0.25rem 0" }}>
-            BKS ସଦସ୍ୟ ପରିଚାଳନା
+            {copy.title}
           </h1>
         </div>
-        <button
-          type="button"
-          className="admin-btn ghost"
-          onClick={() => {
-            writeStoredKey("");
-            setItems(null);
-          }}
-        >
-          ପ୍ରସ୍ଥାନ
-        </button>
+        <div className="admin-header-actions">
+          {languageSwitcher}
+          <button
+            type="button"
+            className="admin-btn ghost"
+            onClick={() => {
+              writeStoredKey("");
+              setItems(null);
+              setAuthGate("login");
+            }}
+          >
+            {copy.leave}
+          </button>
+        </div>
       </div>
 
       <label className="admin-field">
-        ଜିଲ୍ଲା ଚୟନ
-        <select
-          value={districtId}
-          onChange={(e) => changeDistrict(e.target.value)}
-        >
+        {copy.districtSelect}
+        <select value={districtId} onChange={(e) => changeDistrict(e.target.value)}>
           {catalog.map((d) => (
             <option key={d.id} value={d.id}>
-              {d.name.or} / {d.officialName}
+              {d.name[locale]} / {d.officialName}
             </option>
           ))}
         </select>
@@ -542,40 +648,40 @@ export default function DistrictMembersAdmin() {
 
       <div className="admin-toolbar" style={{ marginBottom: "1rem" }}>
         <label className="admin-field inline">
-          Presence ସ୍ଥିତି (ମାନୁଆଲ୍)
+          {copy.presenceStatusManual}
           <select
             value={districtStatus}
             disabled={!dbConfigured || saving}
             onChange={(e) => void saveDistrictStatus(e.target.value as PresenceStatus)}
           >
-            <option value="upcoming">Upcoming</option>
-            <option value="indicated">Indicated</option>
-            <option value="active">Active</option>
+            <option value="upcoming">{copy.statusUpcoming}</option>
+            <option value="indicated">{copy.statusIndicated}</option>
+            <option value="active">{copy.statusActive}</option>
           </select>
         </label>
         <p style={{ margin: 0, color: "var(--ink-mute)", fontSize: "0.9rem" }}>
-          {selectedDistrict?.name.or} — ପ୍ରକାଶିତ ସଦସ୍ୟ ଥିଲେ ସ୍ୱୟଂ Active/Green ହୁଏ।
+          {selectedDistrict?.name[locale]} — {copy.autoActiveNote}
         </p>
       </div>
 
       {!dbConfigured ? (
         <p className="note-block" role="status">
-          ଡାଟାବେସ ଏପର୍ଯ୍ୟନ୍ତ ସଂଯୋଗ ହୋଇନାହିଁ। ମାଇଗ୍ରେସନ୍ ଓ `.env.local` ସେଟ୍ ହେବା ପରେ କାମ କରିବ।
+          {copy.dbNotConnected}
         </p>
       ) : null}
 
-      <div className="admin-stats" aria-label="ସଦସ୍ୟ ସଂଖ୍ୟା">
+      <div className="admin-stats" aria-label={copy.statsTotal}>
         <div>
           <strong>{counts.total}</strong>
-          <span>ମୋଟ ସଦସ୍ୟ</span>
+          <span>{copy.statsTotal}</span>
         </div>
         <div>
           <strong>{counts.published}</strong>
-          <span>ପ୍ରକାଶିତ</span>
+          <span>{copy.statsPublished}</span>
         </div>
         <div>
           <strong>{counts.draft}</strong>
-          <span>ଖସଡ଼ା</span>
+          <span>{copy.statsDraft}</span>
         </div>
       </div>
 
@@ -583,38 +689,38 @@ export default function DistrictMembersAdmin() {
         <>
           <div className="admin-toolbar">
             <button type="button" className="admin-btn primary" onClick={openCreate} disabled={!dbConfigured}>
-              + ନୂଆ ସଦସ୍ୟ ଯୋଗ କରନ୍ତୁ
+              {copy.addMember}
             </button>
             <label className="admin-search">
-              <span className="sr-only">ଖୋଜନ୍ତୁ</span>
+              <span className="sr-only">{copy.searchPlaceholder}</span>
               <input
                 type="search"
-                placeholder="ନାମ / ଗାଁ / ଅଞ୍ଚଳ ଦ୍ୱାରା ଖୋଜନ୍ତୁ"
+                placeholder={copy.searchPlaceholder}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </label>
             <label className="admin-field inline">
-              ଫିଲ୍ଟର
+              {copy.filter}
               <select
                 value={statusFilter}
                 onChange={(e) =>
                   setStatusFilter(e.target.value as "all" | "published" | "draft")
                 }
               >
-                <option value="all">ସବୁ</option>
-                <option value="published">ପ୍ରକାଶିତ</option>
-                <option value="draft">ଖସଡ଼ା</option>
+                <option value="all">{copy.filterAll}</option>
+                <option value="published">{copy.filterPublished}</option>
+                <option value="draft">{copy.filterDraft}</option>
               </select>
             </label>
           </div>
 
-          {loading ? <p role="status">ସଦସ୍ୟ ତଥ୍ୟ ଲୋଡ୍ ହେଉଛି...</p> : null}
+          {loading ? <p role="status">{copy.loadingMembers}</p> : null}
           {error ? <p className="admin-msg error" role="alert">{error}</p> : null}
           {success ? <p className="admin-msg ok" role="status">{success}</p> : null}
 
           {!loading && sorted.length === 0 ? (
-            <p className="note-block">ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସଦସ୍ୟ ନାହାନ୍ତି। ନୂଆ ସଦସ୍ୟ ଯୋଗ କରନ୍ତୁ।</p>
+            <p className="note-block">{copy.emptyMembers}</p>
           ) : (
             <ul className="admin-member-list">
               {sorted.map((m, index) => (
@@ -622,16 +728,16 @@ export default function DistrictMembersAdmin() {
                   <div className="admin-member-main">
                     <strong>{m.full_name}</strong>
                     <span className={`admin-pill ${m.is_published ? "pub" : "draft"}`}>
-                      {m.is_published ? "ପ୍ରକାଶିତ" : "ଖସଡ଼ା"}
+                      {m.is_published ? copy.published : copy.draft}
                     </span>
                     <p>
                       {[m.designation, m.village, m.area].filter(Boolean).join(" · ") ||
-                        "ଅତିରିକ୍ତ ତଥ୍ୟ ନାହିଁ"}
+                        copy.noExtraInfo}
                     </p>
                   </div>
                   <div className="admin-member-actions">
                     <button type="button" className="admin-btn" onClick={() => openEdit(m)} disabled={saving}>
-                      ସମ୍ପାଦନା
+                      {copy.edit}
                     </button>
                     <button
                       type="button"
@@ -641,14 +747,14 @@ export default function DistrictMembersAdmin() {
                       }
                       disabled={saving}
                     >
-                      {m.is_published ? "ଲୁଚାନ୍ତୁ" : "ପ୍ରକାଶ କରନ୍ତୁ"}
+                      {m.is_published ? copy.unpublish : copy.publish}
                     </button>
                     <button
                       type="button"
                       className="admin-btn"
                       onClick={() => void moveOrder(m.id, "up")}
                       disabled={saving || index === 0}
-                      aria-label="ଉପରକୁ"
+                      aria-label={copy.moveUp}
                     >
                       ↑
                     </button>
@@ -657,7 +763,7 @@ export default function DistrictMembersAdmin() {
                       className="admin-btn"
                       onClick={() => void moveOrder(m.id, "down")}
                       disabled={saving || index === sorted.length - 1}
-                      aria-label="ତଳକୁ"
+                      aria-label={copy.moveDown}
                     >
                       ↓
                     </button>
@@ -667,7 +773,7 @@ export default function DistrictMembersAdmin() {
                       onClick={() => void archiveMember(m.id, m.full_name)}
                       disabled={saving}
                     >
-                      ସଂରକ୍ଷଣାଗାର
+                      {copy.archive}
                     </button>
                   </div>
                 </li>
@@ -678,15 +784,16 @@ export default function DistrictMembersAdmin() {
       ) : (
         <div className="admin-form-panel">
           <h2 style={{ fontFamily: "var(--font-display)", color: "var(--field-green)" }}>
-            {mode === "create" ? "ନୂଆ ସଦସ୍ୟ ଯୋଗ" : "ସଦସ୍ୟ ସମ୍ପାଦନା"} — {selectedDistrict?.name.or}
+            {mode === "create" ? copy.createTitle : copy.editTitle} —{" "}
+            {selectedDistrict?.name[locale]}
           </h2>
           <p className="note-block" style={{ marginTop: 0 }}>
-            {LATIN_SCRIPT_MESSAGE_OR}
+            {latinHint(locale)}
           </p>
           {error ? <p className="admin-msg error" role="alert">{error}</p> : null}
 
           <label className="admin-field">
-            ନାମ * (English/Latin)
+            {copy.name} *
             <input
               value={form.full_name}
               onChange={(e) => setForm((f) => ({ ...f, full_name: e.target.value }))}
@@ -696,7 +803,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ପଦବୀ / ଦାୟିତ୍ୱ (English/Latin)
+            {copy.designation}
             <input
               value={form.designation}
               onChange={(e) => setForm((f) => ({ ...f, designation: e.target.value }))}
@@ -704,7 +811,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ଗାଁ / ସ୍ଥାନ (English/Latin)
+            {copy.village}
             <input
               value={form.village}
               onChange={(e) => setForm((f) => ({ ...f, village: e.target.value }))}
@@ -712,7 +819,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ବ୍ଲକ (English/Latin)
+            {copy.block}
             <input
               value={form.block}
               onChange={(e) => setForm((f) => ({ ...f, block: e.target.value }))}
@@ -720,7 +827,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ଅଞ୍ଚଳ (English/Latin)
+            {copy.area}
             <input
               value={form.area}
               onChange={(e) => setForm((f) => ({ ...f, area: e.target.value }))}
@@ -728,7 +835,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ସଂକ୍ଷିପ୍ତ ପରିଚୟ (English/Latin)
+            {copy.bio}
             <textarea
               rows={4}
               value={form.bio}
@@ -737,7 +844,7 @@ export default function DistrictMembersAdmin() {
             />
           </label>
           <label className="admin-field">
-            ବିଭାଗ (ଐଚ୍ଛିକ, English/Latin)
+            {copy.category}
             <input
               value={form.category}
               onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
@@ -746,24 +853,17 @@ export default function DistrictMembersAdmin() {
           </label>
 
           <fieldset className="admin-photo-field">
-            <legend>ଛବି</legend>
+            <legend>{copy.photo}</legend>
+            <p className="note-block" style={{ marginTop: 0 }}>
+              {copy.photoHint}
+            </p>
             {photoPreview ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={photoPreview} alt="ଚୟନିତ ଛବି" className="admin-photo-preview" />
+              <img src={photoPreview} alt="" className="admin-photo-preview" />
             ) : null}
             <div className="admin-photo-actions">
               <label className="admin-btn">
-                ଛବି ଉଠାନ୍ତୁ
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  hidden
-                  onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
-                />
-              </label>
-              <label className="admin-btn">
-                ଛବି ବାଛନ୍ତୁ
+                {copy.choosePhoto}
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -771,6 +871,15 @@ export default function DistrictMembersAdmin() {
                   onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
                 />
               </label>
+              {photoFile ? (
+                <button
+                  type="button"
+                  className="admin-btn"
+                  onClick={() => setPhotoFile(null)}
+                >
+                  {copy.clearPhoto}
+                </button>
+              ) : null}
             </div>
           </fieldset>
 
@@ -782,15 +891,20 @@ export default function DistrictMembersAdmin() {
                 setForm((f) => ({ ...f, is_published: e.target.checked }))
               }
             />
-            ବର୍ତ୍ତମାନ ପ୍ରକାଶ କରନ୍ତୁ
+            {copy.publishCheckbox}
           </label>
 
           <div className="admin-form-actions">
-            <button type="button" className="admin-btn primary" onClick={() => void saveMember()} disabled={saving}>
-              ସଂରକ୍ଷଣ କରନ୍ତୁ
+            <button
+              type="button"
+              className="admin-btn primary"
+              onClick={() => void saveMember()}
+              disabled={saving}
+            >
+              {copy.save}
             </button>
             <button type="button" className="admin-btn" onClick={cancelForm} disabled={saving}>
-              ବାତିଲ୍
+              {copy.cancel}
             </button>
           </div>
         </div>

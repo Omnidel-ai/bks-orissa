@@ -157,6 +157,19 @@ export type Dict = {
     stateLabel: string;
     districtsLabel: string;
     architectureNote: string;
+    mapTitle: string;
+    teamTitle: string;
+    selectDistrict: string;
+    membersHeading: string;
+    noMembers: string;
+    active: string;
+    indicated: string;
+    upcoming: string;
+    comingSoon: string;
+    activeNote: string;
+    upcomingNote: string;
+    memberCount: string;
+    activeCount: string;
   };
   media: {
     eyebrow: string;
@@ -362,11 +375,24 @@ const en: Dict = {
   presence: {
     eyebrow: "Our Presence",
     title: "Odisha geographic presence.",
-    lead: "District and block presence will be published only with verified names and details — same discipline as BKS West Bengal.",
-    empty: "No public Odisha district representative list has been published yet.",
+    lead: "All 30 Odisha districts. A district turns Active (green) automatically when at least one published member is registered.",
+    empty: "No published members for this district yet.",
     stateLabel: "Odisha",
     districtsLabel: "Districts",
-    architectureNote: "Architecture matches the West Bengal chapter: State → District → Block → Member. District panels open here when verified names are supplied.",
+    architectureNote: "Architecture matches the West Bengal chapter: State → District → Block → Member.",
+    mapTitle: "Odisha districts",
+    teamTitle: "District team",
+    selectDistrict: "Select a district",
+    membersHeading: "Registered members",
+    noMembers: "No published members for this district yet.",
+    active: "Active",
+    indicated: "Indicated",
+    upcoming: "Upcoming",
+    comingSoon: "Indicated — more details will appear when verified.",
+    activeNote: "Active presence — published members are listed below.",
+    upcomingNote: "Upcoming — open for registration; not yet Active.",
+    memberCount: "{n} published members",
+    activeCount: "{n} Active districts",
   },
   media: {
     eyebrow: "Media",
@@ -526,8 +552,24 @@ const hi: Dict = {
     ...en.presence,
     eyebrow: "हमारी उपस्थिति",
     title: "ओडिशा की भौगोलिक उपस्थिति।",
+    lead: "ओडिशा के सभी ३० ज़िले। कम से कम एक प्रकाशित सदस्य होने पर ज़िला स्वतः Active (हरा) हो जाता है।",
+    empty: "इस ज़िले के लिए अभी कोई प्रकाशित सदस्य नहीं है।",
     stateLabel: "ओडिशा",
     districtsLabel: "ज़िले",
+    architectureNote: "पश्चिम बंगाल अध्याय जैसी संरचना: राज्य → ज़िला → ब्लॉक → सदस्य।",
+    mapTitle: "ओडिशा ज़िले",
+    teamTitle: "ज़िला दल",
+    selectDistrict: "ज़िला चुनें",
+    membersHeading: "पंजीकृत सदस्य",
+    noMembers: "इस ज़िले के लिए अभी कोई प्रकाशित सदस्य नहीं है।",
+    active: "सक्रिय",
+    indicated: "संकेतित",
+    upcoming: "आगामी",
+    comingSoon: "संकेतित — सत्यापन के बाद और विवरण आएगा।",
+    activeNote: "सक्रिय उपस्थिति — प्रकाशित सदस्य नीचे सूचीबद्ध हैं।",
+    upcomingNote: "आगामी — पंजीकरण के लिए खुला; अभी Active नहीं।",
+    memberCount: "{n} प्रकाशित सदस्य",
+    activeCount: "{n} सक्रिय ज़िले",
   },
   media: {
     ...en.media,
@@ -675,11 +717,24 @@ const orLocale: Dict = {
     ...en.presence,
     eyebrow: "ଆମର ଉପସ୍ଥିତି",
     title: "ଓଡ଼ିଶାର ଭୌଗୋଳିକ ଉପସ୍ଥିତି।",
-    lead: "ଜିଲ୍ଲା ଓ ବ୍ଲକ ଉପସ୍ଥିତି କେବଳ ଯାଞ୍ଚିତ ନାମ ଓ ବିବରଣୀ ସହ ପ୍ରକାଶିତ ହେବ — BKS ପଶ୍ଚିମବଙ୍ଗ ପରି।",
-    empty: "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ସାର୍ବଜନୀନ ଓଡ଼ିଶା ଜିଲ୍ଲା ପ୍ରତିନିଧି ତାଲିକା ପ୍ରକାଶିତ ହୋଇନାହିଁ।",
+    lead: "ଓଡ଼ିଶାର ସମସ୍ତ ୩୦ ଜିଲ୍ଲା। ଅତି କମରେ ଗୋଟିଏ ପ୍ରକାଶିତ ସଦସ୍ୟ ଥିଲେ ଜିଲ୍ଲା ସ୍ୱୟଂ Active (ସବୁଜ) ହୁଏ।",
+    empty: "ଏହି ଜିଲ୍ଲା ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ପ୍ରକାଶିତ ସଦସ୍ୟ ନାହାନ୍ତି।",
     stateLabel: "ଓଡ଼ିଶା",
     districtsLabel: "ଜିଲ୍ଲା",
-    architectureNote: "ଗଠନ ପଶ୍ଚିମବଙ୍ଗ ଅଧ୍ୟାୟ ସହ ସମାନ: ରାଜ୍ୟ → ଜିଲ୍ଲା → ବ୍ଲକ → ସଦସ୍ୟ। ଯାଞ୍ଚିତ ନାମ ମିଳିଲେ ଜିଲ୍ଲା ପ୍ୟାନେଲ ଏଠାରେ ଖୋଲିବ।",
+    architectureNote: "ଗଠନ ପଶ୍ଚିମବଙ୍ଗ ଅଧ୍ୟାୟ ସହ ସମାନ: ରାଜ୍ୟ → ଜିଲ୍ଲା → ବ୍ଲକ → ସଦସ୍ୟ।",
+    mapTitle: "ଓଡ଼ିଶା ଜିଲ୍ଲା",
+    teamTitle: "ଜିଲ୍ଲା ଦଳ",
+    selectDistrict: "ଜିଲ୍ଲା ବାଛନ୍ତୁ",
+    membersHeading: "ପଞ୍ଜୀକୃତ ସଦସ୍ୟ",
+    noMembers: "ଏହି ଜିଲ୍ଲା ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ପ୍ରକାଶିତ ସଦସ୍ୟ ନାହାନ୍ତି।",
+    active: "ସକ୍ରିୟ",
+    indicated: "ସଙ୍କେତିତ",
+    upcoming: "ଆଗାମୀ",
+    comingSoon: "ସଙ୍କେତିତ — ଯାଞ୍ଚ ପରେ ଅଧିକ ବିବରଣୀ ଆସିବ।",
+    activeNote: "ସକ୍ରିୟ ଉପସ୍ଥିତି — ପ୍ରକାଶିତ ସଦସ୍ୟ ତଳେ ତାଲିକାଭୁକ୍ତ।",
+    upcomingNote: "ଆଗାମୀ — ପଞ୍ଜୀକରଣ ପାଇଁ ଖୋଲା; ଏପର୍ଯ୍ୟନ୍ତ Active ନୁହେଁ।",
+    memberCount: "{n} ପ୍ରକାଶିତ ସଦସ୍ୟ",
+    activeCount: "{n} ସକ୍ରିୟ ଜିଲ୍ଲା",
   },
   media: {
     ...en.media,

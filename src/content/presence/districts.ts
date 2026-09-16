@@ -1,11 +1,260 @@
 import type { District } from "./types";
 
 /**
- * Empty until verified Odisha district names are supplied.
- * Do not invent representatives or district status.
+ * Canonical 30 Odisha districts.
+ * English names: Government of Odisha — https://odisha.gov.in/en/about-us/districts
+ * Odia names: Government of Odisha (Odia) — https://odisha.gov.in/about-us/districts
+ *            and district.odisha.gov.in bilingual labels where published.
+ * Hindi: standard Devanagari forms matching the English official names.
+ * Slugs are stable Presence / DB ids — do not rename lightly.
  */
-export const districts: District[] = [];
+export const districts: District[] = [
+  {
+    id: "angul",
+    slug: "angul",
+    stateId: "odisha",
+    officialName: "Angul",
+    name: { or: "ଅନୁଗୋଳ", en: "Angul", hi: "अंगुल" },
+    status: "upcoming",
+  },
+  {
+    id: "boudh",
+    slug: "boudh",
+    stateId: "odisha",
+    officialName: "Boudh",
+    name: { or: "ବୌଦ୍ଧ", en: "Boudh", hi: "बौध" },
+    status: "upcoming",
+  },
+  {
+    id: "balangir",
+    slug: "balangir",
+    stateId: "odisha",
+    officialName: "Balangir",
+    name: { or: "ବଲାଙ୍ଗୀର", en: "Balangir", hi: "बलांगीर" },
+    status: "upcoming",
+  },
+  {
+    id: "bargarh",
+    slug: "bargarh",
+    stateId: "odisha",
+    officialName: "Bargarh",
+    name: { or: "ବରଗଡ଼", en: "Bargarh", hi: "बरगढ़" },
+    status: "upcoming",
+  },
+  {
+    id: "balasore",
+    slug: "balasore",
+    stateId: "odisha",
+    officialName: "Balasore",
+    name: { or: "ବାଲେଶ୍ୱର", en: "Balasore", hi: "बालेश्वर" },
+    status: "upcoming",
+  },
+  {
+    id: "bhadrak",
+    slug: "bhadrak",
+    stateId: "odisha",
+    officialName: "Bhadrak",
+    name: { or: "ଭଦ୍ରକ", en: "Bhadrak", hi: "भद्रक" },
+    status: "upcoming",
+  },
+  {
+    id: "cuttack",
+    slug: "cuttack",
+    stateId: "odisha",
+    officialName: "Cuttack",
+    name: { or: "କଟକ", en: "Cuttack", hi: "कटक" },
+    status: "upcoming",
+  },
+  {
+    id: "deogarh",
+    slug: "deogarh",
+    stateId: "odisha",
+    officialName: "Deogarh",
+    name: { or: "ଦେବଗଡ଼", en: "Deogarh", hi: "देबगढ़" },
+    status: "upcoming",
+  },
+  {
+    id: "dhenkanal",
+    slug: "dhenkanal",
+    stateId: "odisha",
+    officialName: "Dhenkanal",
+    name: { or: "ଢେଙ୍କାନାଳ", en: "Dhenkanal", hi: "ढेंकानाल" },
+    status: "upcoming",
+  },
+  {
+    id: "ganjam",
+    slug: "ganjam",
+    stateId: "odisha",
+    officialName: "Ganjam",
+    name: { or: "ଗଞ୍ଜାମ", en: "Ganjam", hi: "गंजाम" },
+    status: "upcoming",
+  },
+  {
+    id: "gajapati",
+    slug: "gajapati",
+    stateId: "odisha",
+    officialName: "Gajapati",
+    name: { or: "ଗଜପତି", en: "Gajapati", hi: "गजपति" },
+    status: "upcoming",
+  },
+  {
+    id: "jharsuguda",
+    slug: "jharsuguda",
+    stateId: "odisha",
+    officialName: "Jharsuguda",
+    name: { or: "ଝାରସୁଗୁଡ଼ା", en: "Jharsuguda", hi: "झारसुगुड़ा" },
+    status: "upcoming",
+  },
+  {
+    id: "jajpur",
+    slug: "jajpur",
+    stateId: "odisha",
+    officialName: "Jajpur",
+    name: { or: "ଯାଜପୁର", en: "Jajpur", hi: "जाजपुर" },
+    status: "upcoming",
+  },
+  {
+    id: "jagatsinghpur",
+    slug: "jagatsinghpur",
+    stateId: "odisha",
+    officialName: "Jagatsinghapur",
+    name: { or: "ଜଗତସିଂହପୁର", en: "Jagatsinghpur", hi: "जगतसिंहपुर" },
+    status: "upcoming",
+  },
+  {
+    id: "khordha",
+    slug: "khordha",
+    stateId: "odisha",
+    officialName: "Khordha",
+    name: { or: "ଖୋର୍ଦ୍ଧା", en: "Khordha", hi: "खोर्धा" },
+    status: "upcoming",
+  },
+  {
+    id: "keonjhar",
+    slug: "keonjhar",
+    stateId: "odisha",
+    officialName: "Keonjhar",
+    name: { or: "କେନ୍ଦୁଝର", en: "Keonjhar", hi: "केन्दुझर" },
+    status: "upcoming",
+  },
+  {
+    id: "kalahandi",
+    slug: "kalahandi",
+    stateId: "odisha",
+    officialName: "Kalahandi",
+    name: { or: "କଳାହାଣ୍ଡି", en: "Kalahandi", hi: "कलाहांडी" },
+    status: "upcoming",
+  },
+  {
+    id: "kandhamal",
+    slug: "kandhamal",
+    stateId: "odisha",
+    officialName: "Kandhamal",
+    name: { or: "କନ୍ଧମାଳ", en: "Kandhamal", hi: "कंधमाल" },
+    status: "upcoming",
+  },
+  {
+    id: "koraput",
+    slug: "koraput",
+    stateId: "odisha",
+    officialName: "Koraput",
+    name: { or: "କୋରାପୁଟ", en: "Koraput", hi: "कोरापुट" },
+    status: "upcoming",
+  },
+  {
+    id: "kendrapara",
+    slug: "kendrapara",
+    stateId: "odisha",
+    officialName: "Kendrapara",
+    name: { or: "କେନ୍ଦ୍ରାପଡ଼ା", en: "Kendrapara", hi: "केन्द्रापड़ा" },
+    status: "upcoming",
+  },
+  {
+    id: "malkangiri",
+    slug: "malkangiri",
+    stateId: "odisha",
+    officialName: "Malkangiri",
+    name: { or: "ମାଲକାନଗିରି", en: "Malkangiri", hi: "मालकानगिरि" },
+    status: "upcoming",
+  },
+  {
+    id: "mayurbhanj",
+    slug: "mayurbhanj",
+    stateId: "odisha",
+    officialName: "Mayurbhanj",
+    name: { or: "ମୟୂରଭଞ୍ଜ", en: "Mayurbhanj", hi: "मयूरभंज" },
+    status: "upcoming",
+  },
+  {
+    id: "nabarangpur",
+    slug: "nabarangpur",
+    stateId: "odisha",
+    officialName: "Nabarangpur",
+    name: { or: "ନବରଙ୍ଗପୁର", en: "Nabarangpur", hi: "नबरंगपुर" },
+    status: "upcoming",
+  },
+  {
+    id: "nuapada",
+    slug: "nuapada",
+    stateId: "odisha",
+    officialName: "Nuapada",
+    name: { or: "ନୂଆପଡ଼ା", en: "Nuapada", hi: "नूआपड़ा" },
+    status: "upcoming",
+  },
+  {
+    id: "nayagarh",
+    slug: "nayagarh",
+    stateId: "odisha",
+    officialName: "Nayagarh",
+    name: { or: "ନୟାଗଡ଼", en: "Nayagarh", hi: "नयागढ़" },
+    status: "upcoming",
+  },
+  {
+    id: "puri",
+    slug: "puri",
+    stateId: "odisha",
+    officialName: "Puri",
+    name: { or: "ପୁରୀ", en: "Puri", hi: "पुरी" },
+    status: "upcoming",
+  },
+  {
+    id: "rayagada",
+    slug: "rayagada",
+    stateId: "odisha",
+    officialName: "Rayagada",
+    name: { or: "ରାୟଗଡ଼ା", en: "Rayagada", hi: "रायगड़ा" },
+    status: "upcoming",
+  },
+  {
+    id: "sambalpur",
+    slug: "sambalpur",
+    stateId: "odisha",
+    officialName: "Sambalpur",
+    name: { or: "ସମ୍ବଲପୁର", en: "Sambalpur", hi: "सम्बलपुर" },
+    status: "upcoming",
+  },
+  {
+    id: "subarnapur",
+    slug: "subarnapur",
+    stateId: "odisha",
+    officialName: "Subarnapur",
+    name: { or: "ସୁବର୍ଣ୍ଣପୁର", en: "Subarnapur", hi: "सुवर्णपुर" },
+    status: "upcoming",
+  },
+  {
+    id: "sundargarh",
+    slug: "sundargarh",
+    stateId: "odisha",
+    officialName: "Sundargarh",
+    name: { or: "ସୁନ୍ଦରଗଡ଼", en: "Sundargarh", hi: "सुन्दरगढ़" },
+    status: "upcoming",
+  },
+];
 
 export function getDistrict(slug: string) {
   return districts.find((d) => d.slug === slug);
+}
+
+export function getDistrictById(id: string) {
+  return districts.find((d) => d.id === id);
 }

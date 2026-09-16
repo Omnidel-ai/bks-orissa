@@ -4766,3 +4766,72 @@ html[lang="or"] .lang-toggle-select {
 }
 
 
+
+/* Odisha Presence district grid fallback (no SVG map required) */
+.odisha-district-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+}
+.odisha-district-chip {
+  text-align: left;
+  min-height: var(--tap-min);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: var(--page);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+}
+.odisha-district-chip.active { background: #e8f3e9; border-color: #8fb892; }
+.odisha-district-chip.indicated { background: var(--paddy-gold-tint); }
+.odisha-district-chip.upcoming { background: #f3eee3; }
+.odisha-district-chip[aria-selected="true"] {
+  outline: 2px solid var(--paddy-gold);
+  outline-offset: 1px;
+  border-color: var(--field-green);
+}
+.odisha-district-chip.active[aria-selected="true"] {
+  background: #d7ebd9;
+}
+
+/* District members admin (Odia-first) */
+.admin-district-members .admin-header-row{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:1rem}
+.admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin:1rem 0 1.25rem}
+@media (max-width:420px){.admin-stats{grid-template-columns:1fr}}
+.admin-stats>div{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-md);padding:.85rem 1rem;display:grid;gap:.2rem}
+.admin-stats strong{font-size:1.35rem;color:var(--field-green);font-family:var(--font-display)}
+.admin-stats span{color:var(--ink-mute);font-size:.9rem}
+.admin-toolbar{display:grid;gap:.75rem;margin-bottom:1rem}
+@media (min-width:720px){.admin-toolbar{grid-template-columns:auto 1fr auto;align-items:end}}
+.admin-field{display:grid;gap:.35rem;margin-bottom:.85rem;color:var(--ink-soft)}
+.admin-field input,.admin-field textarea,.admin-field select,.admin-search input{min-height:var(--tap-min);border:1px solid var(--rule);border-radius:var(--r-sm);padding:.65rem .8rem;font:inherit;background:var(--page);color:var(--ink);width:100%}
+.admin-field.inline{margin:0}
+.admin-btn{display:inline-flex;align-items:center;justify-content:center;min-height:var(--tap-min);padding:.65rem 1rem;border-radius:var(--r-sm);border:1px solid var(--rule-strong);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;text-align:center}
+.admin-btn.primary{background:var(--field-green);border-color:var(--field-green);color:#fff}
+.admin-btn.ghost{background:transparent}
+.admin-btn.danger{border-color:var(--crit);color:var(--crit)}
+.admin-btn:disabled{opacity:.5;cursor:not-allowed}
+.admin-msg{margin:.75rem 0;padding:.75rem .9rem;border-radius:var(--r-sm)}
+.admin-msg.error{background:var(--crit-wash);color:var(--crit)}
+.admin-msg.ok{background:var(--ok-wash);color:var(--ok)}
+.admin-member-list{list-style:none;margin:0;padding:0;display:grid;gap:.75rem}
+.admin-member-row{border:1px solid var(--rule);border-radius:var(--r-md);background:var(--surface);padding:.9rem;display:grid;gap:.75rem}
+.admin-member-main p{margin:.35rem 0 0;color:var(--ink-soft)}
+.admin-pill{display:inline-flex;margin-left:.5rem;padding:.15rem .55rem;border-radius:var(--r-pill);font-size:.75rem;font-weight:700}
+.admin-pill.pub{background:var(--ok-wash);color:var(--ok)}
+.admin-pill.draft{background:var(--warn-wash);color:var(--warn)}
+.admin-member-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.admin-form-panel{border:1px solid var(--rule);border-radius:var(--r-md);background:var(--surface);padding:1rem}
+.admin-photo-field{border:1px dashed var(--rule-strong);border-radius:var(--r-md);padding:.85rem;margin:0 0 1rem}
+.admin-photo-preview{width:140px;height:140px;object-fit:cover;border-radius:var(--r-sm);display:block;margin-bottom:.75rem}
+.admin-photo-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.admin-check{display:flex;gap:.6rem;align-items:center;min-height:var(--tap-min);margin-bottom:1rem}
+.admin-form-actions{display:flex;flex-wrap:wrap;gap:.65rem}
+.admin-search{display:block}

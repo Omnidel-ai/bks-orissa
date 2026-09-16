@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { District, PresenceStatus } from "@/content/presence";
+import OdishaDistrictMap from "@/components/presence/OdishaDistrictMap";
 import type { PublicMemberView } from "@/lib/district-members/types";
 import { t } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
@@ -151,6 +152,14 @@ export default function PresenceExplorer({
         <p className="map-cue">
           {d.presence.activeCount.replace("{n}", String(activeCount))}
         </p>
+
+        <OdishaDistrictMap
+          districts={districts}
+          selectedSlug={selected.slug}
+          onSelect={selectDistrict}
+          locale={locale}
+          statusLabels={statusLabels}
+        />
 
         <div className="odisha-district-grid" role="list">
           {prioritized.map((district) => (

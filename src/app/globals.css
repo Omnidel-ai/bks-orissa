@@ -4767,7 +4767,29 @@ html[lang="or"] .lang-toggle-select {
 
 
 
-/* Odisha Presence district grid fallback (no SVG map required) */
+/* Odisha Presence interactive SVG map */
+.odisha-map-wrap {
+  margin: 0.75rem 0 0.35rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, #f7f3ea 0%, #efe8d8 100%);
+  padding: 0.65rem;
+  overflow: hidden;
+}
+.odisha-map.wb-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: min(62vh, 560px);
+}
+.odisha-map .district {
+  cursor: pointer;
+}
+.odisha-map .district.upcoming {
+  cursor: pointer;
+}
+
+/* Odisha Presence district grid (kept with map for quick pick) */
 .odisha-district-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -4802,6 +4824,9 @@ html[lang="or"] .lang-toggle-select {
 }
 
 /* District members admin (Odia-first) */
+.admin-header-actions{display:flex;flex-wrap:wrap;gap:.65rem;align-items:end;justify-content:flex-end}
+.admin-lang-switch{margin:0;min-width:9rem}
+.admin-lang-switch select{min-height:var(--tap-min)}
 .admin-district-members .admin-header-row{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:1rem}
 .admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin:1rem 0 1.25rem}
 @media (max-width:420px){.admin-stats{grid-template-columns:1fr}}

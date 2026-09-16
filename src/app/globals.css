@@ -4789,40 +4789,6 @@ html[lang="or"] .lang-toggle-select {
   cursor: pointer;
 }
 
-/* Odisha Presence district grid (kept with map for quick pick) */
-.odisha-district-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.55rem;
-  margin: 0.75rem 0 0;
-}
-.odisha-district-chip {
-  text-align: left;
-  min-height: var(--tap-min);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-sm);
-  background: var(--page);
-  color: var(--ink);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-  padding: 0.65rem 0.75rem;
-  font: inherit;
-}
-.odisha-district-chip.active { background: #e8f3e9; border-color: #8fb892; }
-.odisha-district-chip.indicated { background: var(--paddy-gold-tint); }
-.odisha-district-chip.upcoming { background: #f3eee3; }
-.odisha-district-chip[aria-selected="true"] {
-  outline: 2px solid var(--paddy-gold);
-  outline-offset: 1px;
-  border-color: var(--field-green);
-}
-.odisha-district-chip.active[aria-selected="true"] {
-  background: #d7ebd9;
-}
-
 /* District members admin (Odia-first) */
 .admin-header-actions{display:flex;flex-wrap:wrap;gap:.65rem;align-items:end;justify-content:flex-end}
 .admin-lang-switch{margin:0;min-width:9rem}

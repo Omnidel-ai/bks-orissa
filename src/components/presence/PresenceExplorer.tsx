@@ -161,25 +161,6 @@ export default function PresenceExplorer({
           statusLabels={statusLabels}
         />
 
-        <div className="odisha-district-grid" role="list">
-          {prioritized.map((district) => (
-            <button
-              key={district.id}
-              type="button"
-              role="listitem"
-              className={`odisha-district-chip ${district.status}`}
-              aria-selected={district.slug === selected.slug}
-              onClick={() => selectDistrict(district.slug)}
-            >
-              <span>{district.name[locale]}</span>
-              <StatusBadge
-                status={district.status}
-                label={statusLabelFor(district.status, statusLabels)}
-              />
-            </button>
-          ))}
-        </div>
-
         <p className="legend">
           <span className="l-active">{d.presence.active}</span>
           <span className="l-indicated">{d.presence.indicated}</span>
@@ -208,24 +189,6 @@ export default function PresenceExplorer({
             </option>
           ))}
         </select>
-
-        <ul className="district-list">
-          {prioritized.map((district) => (
-            <li key={district.id}>
-              <button
-                type="button"
-                aria-selected={district.slug === selected.slug}
-                onClick={() => selectDistrict(district.slug)}
-              >
-                <span>{district.name[locale]}</span>
-                <StatusBadge
-                  status={district.status}
-                  label={statusLabelFor(district.status, statusLabels)}
-                />
-              </button>
-            </li>
-          ))}
-        </ul>
 
         <div className="district-detail" style={{ marginTop: "1.25rem" }}>
           <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", marginBottom: "0.5rem" }}>

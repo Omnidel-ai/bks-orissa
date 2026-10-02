@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { NATIONAL_PRESIDENT_URL, NIBEDITA_PROFILE_PATH, ODISHA_TALKS_URL } from "@/lib/site";
 import { t, type Locale } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
+import { MembershipDriveCoverage } from "@/components/MembershipDriveCoverage";
 import { NapSept10EventFeature } from "@/components/NapSept10EventFeature";
 
 export type SectionKind = "about" | "odisha" | "leadership" | "media" | "apply" | "agriculture";
@@ -301,6 +302,7 @@ export function SectionPage({ kind }: { kind: SectionKind }) {
               lead={d.media.lead}
               back={d.common.backHome}
             />
+            <MembershipDriveCoverage />
             <NapSept10EventFeature />
             <section className="home-section">
               <div className="wrap prose-block page-reading">

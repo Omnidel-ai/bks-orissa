@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NATIONAL_PRESIDENT_URL, NIBEDITA_PROFILE_PATH } from "@/lib/site";
+import { membershipDrive } from "@/content/media/membershipDrive";
 import { napSeminarReport } from "@/content/media/napSeminarReport";
 import { t } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
@@ -189,6 +190,45 @@ export function HomeGateway() {
             <Link href="/leadership" className="btn-secondary" style={{ marginTop: "1.25rem", display: "inline-flex" }}>
               {h.leadershipCta}
             </Link>
+          </div>
+        </section>
+
+        <section className="home-section home-nap-feature" aria-labelledby="home-membership-title">
+          <div className="wrap home-content-block home-agri-split">
+            <div>
+              <span className="eyebrow">Latest events</span>
+              <h2 id="home-membership-title">{membershipDrive.headline}</h2>
+              <div className="stitch-accent" aria-hidden="true" />
+              <ul className="home-nap-meta">
+                {membershipDrive.events.map((event) => (
+                  <li key={event.id}>
+                    <strong>{event.district}</strong> {event.dateLabel} — {event.venue}
+                  </li>
+                ))}
+              </ul>
+              <p className="home-content-body">{membershipDrive.outreach}</p>
+              <p className="home-content-body">{membershipDrive.committeeStatement}</p>
+              <Link
+                href="/media#membership-drives-2026"
+                className="btn-secondary"
+                style={{ marginTop: "1.25rem", display: "inline-flex" }}
+              >
+                View Event Coverage
+              </Link>
+            </div>
+            <figure className="home-nap-photo-frame">
+              <div className="home-nap-photo-glow" aria-hidden="true" />
+              <div className="home-nap-photo-media">
+                <Image
+                  src={membershipDrive.hero.src}
+                  alt={membershipDrive.hero.alt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 520px"
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                />
+              </div>
+              <figcaption className="photo-frame-caption">{membershipDrive.hero.caption}</figcaption>
+            </figure>
           </div>
         </section>
 
